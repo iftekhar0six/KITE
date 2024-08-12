@@ -11,7 +11,7 @@ module.exports = {
    *
    * @param {string} req.body.name - The subCategory name.
    * @param {string} req.body.content - The subCategory content.
-   * @param {string} req.body.userId - The subCategory creator.
+   * @param {string} req.user.id - The subCategory creator.
    * @param {string} req.body.categoryId - The subCategory id.
    * @returns {object} details of create subCategory
    */
@@ -23,7 +23,7 @@ module.exports = {
       const detail = {
         name: req.body.name,
         content: req.body.content,
-        userId: req.body.userId,
+        userId: req.user.id,
         categoryId: req.body.categoryId,
       };
       const isSubCategoryExist = await subCategoryRepo.getDetail({
@@ -133,7 +133,7 @@ module.exports = {
    * @param {string} req.params.id - The subCategory id.
    * @param {string} req.body.name - The subCategory name.
    * @param {string} req.body.content - The subCategory content.
-   * @param {string} req.body.userId - The subCategory creator.
+   * @param {string} req.user.id - The subCategory creator.
    * @param {string} req.body.categoryId - The subCategory id.
    * @returns {object} details of updated subCategory
    */
@@ -146,7 +146,7 @@ module.exports = {
       const detail = {
         name: req.body.name,
         content: req.body.content,
-        userId: req.body.userId,
+        userId: req.user.id,
         categoryId: req.body.categoryId,
       };
       const isSubCategory = await subCategoryRepo.getDetail({
@@ -160,7 +160,7 @@ module.exports = {
           )
         );
       }
-      if (detail.name || detail.userId || detail.categoryId) {
+      if (detail.name || detail.categoryId) {
         return res.send(
           service.prepareResponse(
             HttpStatus.BAD_REQUEST,

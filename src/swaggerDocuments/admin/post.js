@@ -1,8 +1,8 @@
 /**
  * @swagger
- * /admins/posts/create:
+ * /admin/categories/sub-categories/posts/create:
  *   post:
- *     summary: Admin Create Post
+ *     summary: post create by admin
  *     tags: [Admins/Post]
  *     requestBody:
  *       required: true
@@ -14,9 +14,6 @@
  *               content:
  *                 type: string
  *                 example: This category contains movie
- *               userId:
- *                 type: string
- *                 example: 66b0a7a86706e973eb375ea2
  *               categoryId:
  *                 type: string
  *                 example: 66b0a7a86706e973eb375ea2
@@ -59,9 +56,9 @@
 
 /**
  * @swagger
- * /admins/posts/find/{id}:
+ * /admin/categories/sub-categories/posts/detail/{id}:
  *   get:
- *     summary: Retrieve Post
+ *     summary: retrieve post (by id)
  *     tags: [Admins/Post]
  *     parameters:
  *       - in: path
@@ -107,9 +104,9 @@
 
 /**
  * @swagger
- * /admins/posts/list:
+ * /admin/categories/sub-categories/posts/list:
  *   get:
- *     summary: List Post
+ *     summary: list post
  *     tags: [Admins/Post]
  *     parameters:
  *       - in: query
@@ -201,9 +198,9 @@
 
 /**
  * @swagger
- * /admins/posts/update/{id}:
+ * /admin/categories/sub-categories/posts/update/{id}:
  *   put:
- *     summary: Update Post
+ *     summary: update post by admin (by id)
  *     tags: [Admins/Post]
  *     parameters:
  *       - in: path
@@ -223,9 +220,6 @@
  *               content:
  *                 type: string
  *                 example: Science Post Description
- *               userId:
- *                 type: string
- *                 example: 66b1dca2c36ae9989d92810c
  *               categoryId:
  *                 type: string
  *                 example: 66b1dca2c36ae9989d92810c
@@ -268,9 +262,9 @@
 
 /**
  * @swagger
- * /admins/posts/delete/{id}:
+ * /admin/categories/sub-categories/posts/delete/{id}:
  *   delete:
- *     summary: Delete Post
+ *     summary: delete post (by id)
  *     tags: [Admins/Post]
  *     parameters:
  *       - in: path

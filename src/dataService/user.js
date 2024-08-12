@@ -56,9 +56,14 @@ async function list(searchTerm, page, limit) {
  * @returns {object} the updated user
  */
 async function update(userId, userInfo) {
-  const data = await user.findByIdAndUpdate(userId, userInfo, {
-    new: true,
-  });
+  const data = await user.findByIdAndUpdate(
+    userId,
+    userInfo,
+    { updatedAt: Number(Date.now) },
+    {
+      new: true,
+    }
+  );
   return data;
 }
 
@@ -66,10 +71,24 @@ async function update(userId, userInfo) {
  * function to delete an user profile
  *
  * @param {string} userId User's id
- * @returns {object} the deleted user
+ * @returns {object} the deleted user details
  */
 async function deleteUser(userId) {
-  const data = await user.findByIdAndDelete(userId);
+  const userInfo = {
+    email: null,
+    mobile: null,
+    password: null,
+    isDeleted: true,
+  };
+  const data = await user.findByIdAndUpdate(
+    userId,
+    userInfo,
+    { updatedAt: Number(Date.now) },
+    {
+      new: true,
+    }
+  );
+
   return data;
 }
 

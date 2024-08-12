@@ -1,8 +1,8 @@
 /**
  * @swagger
- * /users/follows/follow:
+ * /v1/follows/follow:
  *   post:
- *     summary: User Follow
+ *     summary: user follows/unfollows someone
  *     tags: [Users/Follow]
  *     requestBody:
  *       required: true

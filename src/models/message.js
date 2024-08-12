@@ -2,6 +2,9 @@
 
 const mongoose = require("mongoose");
 
+/**
+ * Schema for Message Model
+ */
 const messageSchema = new mongoose.Schema(
   {
     content: {

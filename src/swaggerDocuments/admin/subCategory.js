@@ -1,9 +1,9 @@
 /**
  * @swagger
- * /admins/subCategories/create:
+ * /admin/categories/sub-categories/create:
  *   post:
- *     summary: Admin Create subCategory
- *     tags: [Admins/subCategory]
+ *     summary: create sub-category by admin
+ *     tags: [Admins/Sub-Category]
  *     requestBody:
  *       required: true
  *       content:
@@ -17,9 +17,6 @@
  *               content:
  *                 type: string
  *                 example: This category contains movie
- *               userId:
- *                 type: string
- *                 example: 66b0a7a86706e973eb375ea2
  *               categoryId:
  *                 type: string
  *                 example: 66b0a7a86706e973eb375ea2
@@ -59,10 +56,10 @@
 
 /**
  * @swagger
- * /admins/subCategories/find/{id}:
+ * /admin/categories/sub-categories/detail/{id}:
  *   get:
- *     summary: Retrieve subCategory
- *     tags: [Admins/subCategory]
+ *     summary: retrieve sub-category (by id)
+ *     tags: [Admins/Sub-Category]
  *     parameters:
  *       - in: path
  *         name: id
@@ -107,10 +104,10 @@
 
 /**
  * @swagger
- * /admins/subCategories/list:
+ * /admin/categories/sub-categories/list:
  *   get:
- *     summary: List subCategory
- *     tags: [Admins/subCategory]
+ *     summary: list sub-category
+ *     tags: [Admins/Sub-Category]
  *     parameters:
  *       - in: query
  *         name: searchTerm
@@ -201,10 +198,10 @@
 
 /**
  * @swagger
- * /admins/subCategories/update/{id}:
+ * /admin/categories/sub-categories/update/{id}:
  *   put:
- *     summary: Update subCategory
- *     tags: [Admins/subCategory]
+ *     summary: update sub-category (by id)
+ *     tags: [Admins/Sub-Category]
  *     parameters:
  *       - in: path
  *         name: id
@@ -226,9 +223,6 @@
  *               content:
  *                 type: string
  *                 example: Science subCategory Description
- *               userId:
- *                 type: string
- *                 example: 66b1dca2c36ae9989d92810c
  *               categoryId:
  *                 type: string
  *                 example: 66b1dca2c36ae9989d92810c
@@ -268,10 +262,10 @@
 
 /**
  * @swagger
- * /admins/subCategories/delete/{id}:
+ * /admin/categories/sub-categories/delete/{id}:
  *   delete:
- *     summary: Delete subCategory
- *     tags: [Admins/subCategory]
+ *     summary: delete sub-category (by id)
+ *     tags: [Admins/Sub-Category]
  *     parameters:
  *       - in: path
  *         name: id

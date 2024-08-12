@@ -1,8 +1,8 @@
 /**
  * @swagger
- * /admins/categories/create:
+ * /admin/categories/create:
  *   post:
- *     summary: Admin Create Category
+ *     summary: create category by admin
  *     tags: [Admins/Category]
  *     requestBody:
  *       required: true
@@ -17,9 +17,6 @@
  *               description:
  *                 type: string
  *                 example: This category contains movie
- *               userId:
- *                 type: string
- *                 example: 66b0a7a86706e973eb375ea2
  *     responses:
  *       200:
  *         description: success
@@ -56,9 +53,9 @@
 
 /**
  * @swagger
- * /admins/categories/find/{id}:
+ * /admin/categories/detail/{id}:
  *   get:
- *     summary: Retrieve Category
+ *     summary: retrieve category by id
  *     tags: [Admins/Category]
  *     parameters:
  *       - in: path
@@ -104,9 +101,9 @@
 
 /**
  * @swagger
- * /admins/categories/list:
+ * /admin/categories/list:
  *   get:
- *     summary: List Category
+ *     summary: list category
  *     tags: [Admins/Category]
  *     parameters:
  *       - in: query
@@ -189,9 +186,9 @@
 
 /**
  * @swagger
- * /admins/categories/update/{id}:
+ * /admin/categories/update/{id}:
  *   put:
- *     summary: Update Category
+ *     summary: update category (by id)
  *     tags: [Admins/Category]
  *     parameters:
  *       - in: path
@@ -214,9 +211,6 @@
  *               description:
  *                 type: string
  *                 example: Science category Description
- *               userId:
- *                 type: string
- *                 example: 66b1dca2c36ae9989d92810c
  *     responses:
  *       200:
  *         description: Success
@@ -253,9 +247,9 @@
 
 /**
  * @swagger
- * /admins/categories/delete/{id}:
+ * /admin/categories/delete/{id}:
  *   delete:
- *     summary: Delete Category
+ *     summary: deactivate category (by id)
  *     tags: [Admins/Category]
  *     parameters:
  *       - in: path

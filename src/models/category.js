@@ -2,6 +2,9 @@
 
 const mongoose = require("mongoose");
 
+/**
+ * Schema for Category Model
+ */
 const categorySchema = new mongoose.Schema(
   {
     name: {
@@ -16,6 +19,10 @@ const categorySchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "users",
       required: true,
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
     },
     updatedAt: {
       type: Number,

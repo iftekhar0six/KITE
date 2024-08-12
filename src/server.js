@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(fileUpload());
 
 /**
- * Swagger
+ * Swagger UI setup
  */
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
@@ -49,24 +49,27 @@ global.dbConnection = dbConnect();
 /**
  * Express application for handling User API routes.
  */
-app.use("/api/users", userRouter);
-app.use("/api/users/categories", categoryUserRouter);
-app.use("/api/users/subCategories", subCategoryUserRouter);
-app.use("/api/users/posts", postUserRouter);
-app.use("/api/users/comments", commentUserRouter);
-app.use("/api/users/messages", messageUserRouter);
-app.use("/api/users/follows", followUserRouter);
+app.use("/api/v1", userRouter);
+app.use("/api/v1/categories", categoryUserRouter);
+app.use("/api/v1/categories/sub-categories", subCategoryUserRouter);
+app.use("/api/v1/categories/sub-categories/posts", postUserRouter);
+app.use("/api/v1/categories/sub-categories/posts/comments", commentUserRouter);
+app.use("/api/v1/messages", messageUserRouter);
+app.use("/api/v1/follows", followUserRouter);
 
 /**
  * Express application for handling Admin API routes.
  */
-app.use("/api/admins", adminRouter);
-app.use("/api/admins/categories", categoryAdminRouter);
-app.use("/api/admins/subCategories", subCategoryAdminRouter);
-app.use("/api/admins/posts", postAdminsRouter);
-app.use("/api/admins/comments", commentAdminsRouter);
-app.use("/api/admins/messages", messageAdminsRouter);
-app.use("/api/admins/follows", followAdminsRouter);
+app.use("/api/admin", adminRouter);
+app.use("/api/admin/categories", categoryAdminRouter);
+app.use("/api/admin/categories/sub-categories", subCategoryAdminRouter);
+app.use("/api/admin/categories/sub-categories/posts", postAdminsRouter);
+app.use(
+  "/api/admin/categories/sub-categories/posts/comments",
+  commentAdminsRouter
+);
+app.use("/api/admin/messages", messageAdminsRouter);
+app.use("/api/admin/follows", followAdminsRouter);
 
 /**
  * HTTP server for the Express application.

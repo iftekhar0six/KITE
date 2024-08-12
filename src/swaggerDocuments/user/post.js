@@ -1,8 +1,8 @@
 /**
  * @swagger
- * /users/posts/create:
+ * /v1/categories/sub-categories/posts/create:
  *   post:
- *     summary: User Create Post
+ *     summary: user create post
  *     tags: [Users/Post]
  *     requestBody:
  *       required: true
@@ -14,9 +14,6 @@
  *               content:
  *                 type: string
  *                 example: This category contains movie
- *               userId:
- *                 type: string
- *                 example: 66b0a7a86706e973eb375ea2
  *               categoryId:
  *                 type: string
  *                 example: 66b0a7a86706e973eb375ea2
@@ -59,9 +56,9 @@
 
 /**
  * @swagger
- * /users/posts/find/{id}:
+ * /v1/categories/sub-categories/posts/detail/{id}:
  *   get:
- *     summary: Retrieve Post
+ *     summary: retrieve post (by id)
  *     tags: [Users/Post]
  *     parameters:
  *       - in: path
@@ -107,9 +104,9 @@
 
 /**
  * @swagger
- * /users/posts/update/{id}:
+ * /v1/categories/sub-categories/posts/update/{id}:
  *   put:
- *     summary: Update Post
+ *     summary: update post (by id)
  *     tags: [Users/Post]
  *     parameters:
  *       - in: path
@@ -129,9 +126,6 @@
  *               content:
  *                 type: string
  *                 example: Science Post Description
- *               userId:
- *                 type: string
- *                 example: 66b1dca2c36ae9989d92810c
  *               categoryId:
  *                 type: string
  *                 example: 66b1dca2c36ae9989d92810c
@@ -174,9 +168,9 @@
 
 /**
  * @swagger
- * /users/posts/delete/{id}:
+ * /v1/categories/sub-categories/posts/delete/{id}:
  *   delete:
- *     summary: Delete Post
+ *     summary: delete post (by id)
  *     tags: [Users/Post]
  *     parameters:
  *       - in: path

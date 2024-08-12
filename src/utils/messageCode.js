@@ -12,6 +12,7 @@ const Msg = {
   USER_REGISTERED: "User registered successfully",
   USER_EMAIL_EXIST: "User already exist with this email, try another one",
   USER_MOBILE_EXIST: "User already exist with this mobile No., try another one",
+  MOBILE_REQUIRED: "Mobile number required",
   PASSWORD_REQUIRED: "Password is required",
   PASSWORD_LENGTH: "Password must be of six character in length ",
   LOGGED_IN: "Successfully logged in ",
@@ -21,10 +22,14 @@ const Msg = {
   USER_DELETE: "User has been deleted successfully",
   USER_NOT_FOUND: "User doesn't exist with this credentials",
   USER_NOT_EXIST: "User doesn't exist",
+  ADMIN_NOT_EXIST: "Admin doesn't exist",
   USER_NOT_UPDATE: "Oop's there is a problem while updating user",
   USER_NOT_DELETED: "Oop's there is a problem while deleting user",
   ENTER_DETAIL: "Enter the credentials to log in",
   IMAGE_REQUIRED: "Image is required",
+  INCORRECT_PASSWORD: "Password is invalid",
+  USER_LOGIN_PANEL: "Admin cannot login to user panel",
+  ADMIN_LOGIN_PANEL: "User cannot login to admin panel",
 
   // CATEGORY
   CATEGORY_EXIST: "Category with the same name exist, try another one",
@@ -38,8 +43,7 @@ const Msg = {
   CATEGORY_NOT_UPDATE: "Oop's there is a problem while updating category",
   CATEGORY_UPDATED: "Category updated successfully",
   CATEGORY_DELETED: "Category deleted successfully",
-  CATEGORY_BAD_CHANGE:
-    "Category name or creator cannot be changed once created",
+  CATEGORY_BAD_CHANGE: "Category name cannot be changed once created",
 
   // SUBCATEGORY
   SUBCATEGORY_EXIST: "Sub Category with the same name exist, try another one",
@@ -55,7 +59,7 @@ const Msg = {
   SUBCATEGORY_UPDATED: "Sub Category updated successfully",
   SUBCATEGORY_DELETED: "Sub Category deleted successfully",
   SUBCATEGORY_BAD_CHANGE:
-    "Sub Category name, creator or category cannot be changed once created",
+    "Sub Category name, category cannot be changed once created",
 
   // POST
   POST_EXIST: "Post with the same name exist, try another one",
@@ -70,7 +74,7 @@ const Msg = {
   POST_UPDATED: "Post updated successfully",
   POST_DELETED: "Post deleted successfully",
   POST_BAD_CHANGE:
-    "Post creator, category or sub category cannot be changed once created",
+    "Post category or sub category cannot be changed once created",
 
   // COMMENT
   COMMENT_CREATED: "Comment created successfully",
@@ -82,7 +86,7 @@ const Msg = {
   COMMENT_UPDATED: "Comment updated successfully",
   COMMENT_DELETED: "Comment deleted successfully",
   COMMENT_BAD_CHANGE:
-    "Comment creator, category, sub category or post Id cannot be changed once created",
+    "Comment category, sub category or post Id cannot be changed once created",
 
   // MESSAGE
   MESSAGE_NOT_FOUND: "Message not found",
@@ -123,6 +127,7 @@ const Msg = {
   // FORGET PASSWORD
   INVALID_OTP: "Invalid OTP",
   OTP_SENT: "Otp send successfully",
+  OTP_REQUIRED: "Otp required",
   NO_USER_EMAIL: "No user exist with this email",
 };
 

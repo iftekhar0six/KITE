@@ -2,6 +2,9 @@
 
 const mongoose = require("mongoose");
 
+/**
+ * Schema for Post Model
+ */
 const postSchema = new mongoose.Schema(
   {
     content: {
@@ -26,6 +29,10 @@ const postSchema = new mongoose.Schema(
     views: {
       type: Number,
       default: 0,
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
     },
     updatedAt: {
       type: Number,

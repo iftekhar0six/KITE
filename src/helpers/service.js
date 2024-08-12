@@ -2,8 +2,8 @@
 
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const path = require("path");
 const fs = require("fs");
+const path = require("path");
 const { validationResult } = require("express-validator");
 const { HttpStatus } = require("../utils/httpStatus");
 const { Msg } = require("../utils/messageCode");
@@ -64,9 +64,7 @@ async function bcryptPassword(password, req, res) {
     const salt = await bcrypt.genSalt(10);
     return await bcrypt.hash(password, salt);
   } catch (error) {
-    return res.send(
-      service.prepareResponse(HttpStatus.BAD_REQUEST, Msg.PASSWD_NOT_HASHED)
-    );
+    console.error(error);
   }
 }
 
@@ -81,9 +79,7 @@ async function comparePassword(password, hashPassword, req, res) {
   try {
     return await bcrypt.compare(password, hashPassword);
   } catch (error) {
-    return res.send(
-      service.prepareResponse(HttpStatus.BAD_REQUEST, Msg.PASSWD_NOT_HASHED)
-    );
+    console.error(error);
   }
 }
 
@@ -130,6 +126,23 @@ const imageUpload = async (image, folderName) => {
   }
 };
 
+/**
+ * function to delete previous image
+ *
+ * @param {string} filePath path of the file which is going to be deleted
+ * @returns the deleted image
+ */
+async function deleteFile(filePath) {
+  try {
+    const fullPath = path.isAbsolute(filePath)
+      ? filePath
+      : path.join(__dirname, "../profile-pic", filePath);
+    return fs.unlinkSync(fullPath);
+  } catch (err) {
+    console.error("Error deleting file:", err);
+  }
+}
+
 module.exports = {
   hasValidatorErrors: hasValidatorErrors,
   prepareResponse: prepareResponse,
@@ -137,4 +150,5 @@ module.exports = {
   comparePassword: comparePassword,
   generateToken: generateToken,
   imageUpload: imageUpload,
+  deleteFile: deleteFile,
 };

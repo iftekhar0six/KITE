@@ -2,6 +2,9 @@
 
 const mongoose = require("mongoose");
 
+/**
+ * Schema for otp
+ */
 const postSchema = new mongoose.Schema({
   email: {
     type: String,

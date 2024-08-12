@@ -102,6 +102,7 @@ async function update(subCategoryId, subCategoryInfo) {
   const data = await subCategory.findByIdAndUpdate(
     subCategoryId,
     subCategoryInfo,
+    { updatedAt: Number(Date.now) },
     {
       new: true,
     }
@@ -116,7 +117,17 @@ async function update(subCategoryId, subCategoryInfo) {
  * @returns {object} the deleted subCategory
  */
 async function deleteSubCategory(subCategoryId) {
-  const data = await subCategory.findByIdAndDelete(subCategoryId);
+  const subCategoryInfo = {
+    isActive: false,
+    updatedAt: Number(Date.now),
+  };
+  const data = await subCategory.findByIdAndUpdate(
+    subCategoryId,
+    subCategoryInfo,
+    {
+      new: true,
+    }
+  );
   return data;
 }
 

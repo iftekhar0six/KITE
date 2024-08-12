@@ -1,8 +1,8 @@
 /**
  * @swagger
- * /users/create:
+ * /v1/signup:
  *   post:
- *     summary: User Registration
+ *     summary: user registration
  *     tags: [Users/User]
  *     requestBody:
  *       required: true
@@ -11,9 +11,6 @@
  *           schema:
  *             type: object
  *             properties:
- *               type:
- *                 type: integer
- *                 example: 2
  *               fName:
  *                 type: string
  *                 example: Tom
@@ -22,10 +19,10 @@
  *                 example: Robert
  *               email:
  *                 type: string
- *                 example: tom@gmail.com
+ *                 example: user@tom.com
  *               mobile:
  *                 type: string
- *                 example: 1234567890
+ *                 example: 9987654321
  *               gender:
  *                 type: string
  *                 example: male
@@ -78,9 +75,9 @@
 
 /**
  * @swagger
- * /users/login:
+ * /v1/login:
  *   post:
- *     summary: User Login
+ *     summary: user login
  *     tags: [Users/User]
  *     requestBody:
  *       required: true
@@ -91,7 +88,7 @@
  *             properties:
  *               email:
  *                 type: string
- *                 example: tom@gmail.com
+ *                 example: user@tom.com
  *               password:
  *                 type: string
  *                 example: abc123
@@ -129,9 +126,9 @@
 
 /**
  * @swagger
- * /users/find:
+ * /v1/detail:
  *   get:
- *     summary: User Profile
+ *     summary: user profile
  *     tags: [Users/User]
  *     responses:
  *       200:
@@ -169,9 +166,9 @@
 
 /**
  * @swagger
- * /users/update:
+ * /v1/update-profile:
  *   put:
- *     summary: Update User
+ *     summary: update user profile
  *     tags: [Users/User]
  *     requestBody:
  *       required: true
@@ -180,9 +177,6 @@
  *           schema:
  *             type: object
  *             properties:
- *               type:
- *                 type: integer
- *                 example: 2
  *               fName:
  *                 type: string
  *                 example: Tom
@@ -246,9 +240,9 @@
 
 /**
  * @swagger
- * /users/delete:
+ * /v1/deactivate-profile:
  *   delete:
- *     summary: Delete User
+ *     summary: deactivate user account
  *     tags: [Users/User]
  *     responses:
  *       200:
@@ -286,9 +280,53 @@
 
 /**
  * @swagger
- * /users/forget-password:
+ * /v1/update-password:
+ *   put:
+ *     summary: update user password (while logged in)
+ *     tags: [Users/User]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               password:
+ *                 type: string
+ *                 example: the_new_password
+ *     responses:
+ *       200:
+ *         description: success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 responseCode:
+ *                   type: integer
+ *                   example: 200
+ *                 responseMessage:
+ *                   type: string
+ *                   example: Password updated
+ *       500:
+ *         description: failed
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 responseCode:
+ *                   type: integer
+ *                 responseMessage:
+ *                   type: string
+ *                   example: Error message
+ */
+
+/**
+ * @swagger
+ * /v1/forget-password:
  *   post:
- *     summary: Forget Password
+ *     summary: forget password (send otp to registered email)
  *     tags: [Users/User]
  *     requestBody:
  *       required: true
@@ -331,9 +369,9 @@
 
 /**
  * @swagger
- * /users/reset-password:
+ * /v1/reset-password:
  *   put:
- *     summary: Reset Password
+ *     summary: reset password (reset new password via otp)
  *     tags: [Users/User]
  *     requestBody:
  *       required: true

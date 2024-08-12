@@ -2,6 +2,9 @@
 
 const mongoose = require("mongoose");
 
+/**
+ * Schema for Follow Model
+ */
 const followSchema = new mongoose.Schema(
   {
     followingId: {

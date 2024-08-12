@@ -1,8 +1,8 @@
 /**
  * @swagger
- * /admins/comments/create:
+ * /admin/categories/sub-categories/posts/comments/create:
  *   post:
- *     summary: Admin Create Comment
+ *     summary: create comment by admin
  *     tags: [Admins/Comment]
  *     requestBody:
  *       required: true
@@ -14,9 +14,6 @@
  *               content:
  *                 type: string
  *                 example: This category contains movie
- *               userId:
- *                 type: string
- *                 example: 66b0a7a86706e973eb375ea2
  *               categoryId:
  *                 type: string
  *                 example: 66b0a7a86706e973eb375ea2
@@ -62,9 +59,9 @@
 
 /**
  * @swagger
- * /admins/comments/find/{id}:
+ * /admin/categories/sub-categories/posts/comments/detail/{id}:
  *   get:
- *     summary: Retrieve Comment
+ *     summary: retrieve comment (by id)
  *     tags: [Admins/Comment]
  *     parameters:
  *       - in: path
@@ -110,9 +107,9 @@
 
 /**
  * @swagger
- * /admins/comments/list:
+ * /admin/categories/sub-categories/posts/comments/list:
  *   get:
- *     summary: List Comment
+ *     summary: list comment
  *     tags: [Admins/Comment]
  *     parameters:
  *       - in: query
@@ -210,9 +207,9 @@
 
 /**
  * @swagger
- * /admins/comments/update/{id}:
+ * /admin/categories/sub-categories/posts/comments/update/{id}:
  *   put:
- *     summary: Update Comment
+ *     summary: update comment (by id)
  *     tags: [Admins/Comment]
  *     parameters:
  *       - in: path
@@ -232,9 +229,6 @@
  *               content:
  *                 type: string
  *                 example: Science Comment Description
- *               userId:
- *                 type: string
- *                 example: 66b1dca2c36ae9989d92810c
  *               categoryId:
  *                 type: string
  *                 example: 66b1dca2c36ae9989d92810c
@@ -280,9 +274,9 @@
 
 /**
  * @swagger
- * /admins/comments/delete/{id}:
+ * /admin/categories/sub-categories/posts/comments/delete/{id}:
  *   delete:
- *     summary: Delete Comment
+ *     summary: delete comment (by id)
  *     tags: [Admins/Comment]
  *     parameters:
  *       - in: path

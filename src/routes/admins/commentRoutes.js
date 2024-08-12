@@ -8,10 +8,12 @@ const { authenticateAdmin } = require("../../helpers/middleware");
 
 const controller = require("../../controllers/commentController");
 
+/**
+ * Router to create comment
+ */
 router.post(
   "/create",
   body("content").notEmpty().withMessage(Msg.COMMENT_CONTENT_REQUIRED),
-  body("userId").notEmpty().withMessage(Msg.COMMENT_CREATOR_REQUIRED),
   body("categoryId").notEmpty().withMessage(Msg.CATEGORY_ID_REQUIRED),
   body("subCategoryId").notEmpty().withMessage(Msg.SUBCATEGORY_ID_REQUIRED),
   body("postId").notEmpty().withMessage(Msg.POST_ID_REQUIRED),
@@ -19,15 +21,24 @@ router.post(
   controller.create
 );
 
+/**
+ * Router to find comment
+ */
 router.get(
-  "/find/:id",
+  "/detail/:id",
   param("id").isMongoId().withMessage(Msg.INVALID_ID),
   authenticateAdmin,
   controller.findComment
 );
 
+/**
+ * Router to list comment
+ */
 router.get("/list", authenticateAdmin, controller.listComment);
 
+/**
+ * Router to update comment
+ */
 router.put(
   "/update/:id",
   param("id").isMongoId().withMessage(Msg.INVALID_ID),
@@ -35,6 +46,9 @@ router.put(
   controller.updateComment
 );
 
+/**
+ * Router to delete comment
+ */
 router.delete(
   "/delete/:id",
   param("id").isMongoId().withMessage(Msg.INVALID_ID),

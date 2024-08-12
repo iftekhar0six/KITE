@@ -13,21 +13,20 @@ require("dotenv").config();
 
 module.exports = {
   /**
-   * function to create user
+   * function to create admin
    *
-   * @param {string} req.body.type - The User's type.
-   * @param {string} req.body.fName - The User's first name.
-   * @param {string} req.body.lName - The User's last name.
-   * @param {string} req.body.email - The User's email address.
-   * @param {number} req.body.mobile - The User's mobile number.
-   * @param {string} req.body.gender - The User's gender.
-   * @param {string} req.body.password - The User's password.
-   * @param {string} req.files.image - The User's avatar.
-   * @param {string} req.body.bio - The User's bio.
-   * @param {string} req.body.location - The User's location.
-   * @returns {object} the details of create user
+   * @param {string} req.body.fName - The Admin's first name.
+   * @param {string} req.body.lName - The Admin's last name.
+   * @param {string} req.body.email - The Admin's email address.
+   * @param {number} req.body.mobile - The Admin's mobile number.
+   * @param {string} req.body.gender - The Admin's gender.
+   * @param {string} req.body.password - The Admin's password.
+   * @param {string} req.files.image - The Admin's avatar.
+   * @param {string} req.body.bio - The Admin's bio.
+   * @param {string} req.body.location - The Admin's location.
+   * @returns {object} the details of create Admin
    */
-  userSignUp: async function (req, res) {
+  signUp: async function (req, res) {
     try {
       if (service.hasValidatorErrors(req, res)) {
         return;
@@ -49,7 +48,7 @@ module.exports = {
       );
 
       const detail = {
-        type: 1,
+        type: 2,
         fName: req.body.fName,
         lName: req.body.lName,
         email: req.body.email,
@@ -82,7 +81,7 @@ module.exports = {
 
       const newUser = await userRepo.create(detail);
 
-      await mailRepo.userSignupMail(
+      await mailRepo.adminSignupMail(
         detail.fName,
         detail.lName,
         detail.mobile,
@@ -107,13 +106,13 @@ module.exports = {
   },
 
   /**
-   * function for logging in user by email and password
+   * function for logging in admin by email and password
    *
-   * @param {string} req.body.email - The User's email address.
-   * @param {string} req.body.password - The User's password.
-   * @returns {object} the user login details
+   * @param {string} req.body.email - The Admin's email address.
+   * @param {string} req.body.password - The Admin's password.
+   * @returns {object} the admin login details
    */
-  userLogin: async function (req, res) {
+  login: async function (req, res) {
     try {
       if (service.hasValidatorErrors(req, res)) {
         return;
@@ -123,8 +122,8 @@ module.exports = {
         password: req.body.password,
       };
 
-      const isUserExist = await userRepo.getDetail({ email: detail.email });
-      if (!isUserExist) {
+      const isAdminExist = await userRepo.getDetail({ email: detail.email });
+      if (!isAdminExist) {
         return res.send(
           service.prepareResponse(
             HttpStatus.UNAUTHORIZED,
@@ -133,14 +132,18 @@ module.exports = {
         );
       }
 
-      if (isUserExist.type === 2) {
+      if (isAdminExist.type === 1) {
         return res.send(
-          service.prepareResponse(HttpStatus.UNAUTHORIZED, Msg.USER_LOGIN_PANEL)
+          service.prepareResponse(
+            HttpStatus.UNAUTHORIZED,
+            Msg.ADMIN_LOGIN_PANEL
+          )
         );
       }
+
       const isMatched = await service.comparePassword(
         detail.password,
-        isUserExist.password
+        isAdminExist.password
       );
       if (!isMatched) {
         return res.send(
@@ -150,7 +153,7 @@ module.exports = {
           )
         );
       }
-      const token = service.generateToken(isUserExist);
+      const token = service.generateToken(isAdminExist);
       return res.send(
         service.prepareResponse(HttpStatus.SUCCESS, Msg.LOGGED_IN, token)
       );
@@ -165,27 +168,27 @@ module.exports = {
   },
 
   /**
-   * function to find user
+   * function to find admin
    *
-   * @param {string} req.user.id - The User's Id.
-   * @returns {object} the user details
+   * @param {string} req.user.id - The Admin's Id.
+   * @returns {object} the admin details
    */
-  userDetail: async function (req, res) {
+  adminDetail: async function (req, res) {
     try {
       if (service.hasValidatorErrors(req, res)) {
         return;
       }
       const userId = req.user.id;
-      const isUser = await userRepo.getDetail({ _id: userId });
+      const isAdmin = await userRepo.getDetail({ _id: userId });
 
-      if (!isUser) {
+      if (!isAdmin) {
         return res.send(
-          service.prepareResponse(HttpStatus.NOT_FOUND, Msg.USER_NOT_EXIST)
+          service.prepareResponse(HttpStatus.NOT_FOUND, Msg.ADMIN_NOT_EXIST)
         );
       }
       return res.send(
         service.prepareResponse(HttpStatus.SUCCESS, Msg.SUCCESS, {
-          _id: isUser.id,
+          _id: isAdmin.id,
         })
       );
     } catch (error) {
@@ -240,20 +243,20 @@ module.exports = {
   },
 
   /**
-   * function to update an user
+   * function to update an admin
    *
-   * @param {string} req.user.id - The User's id.
-   * @param {string} req.body.type - The User's type.
-   * @param {string} req.body.fName - The User's first name.
-   * @param {string} req.body.lName - The User's last name.
-   * @param {string} req.body.email - The User's email address.
-   * @param {number} req.body.mobile - The User's mobile number.
-   * @param {string} req.body.gender - The User's gender.
-   * @param {string} req.body.password - The User's password.
-   * @param {string} req.body.image - The User's avatar.
-   * @param {string} req.body.bio - The User's bio.
-   * @param {string} req.body.location - The User's location.
-   * @returns {object} the details of create user
+   * @param {string} req.user.id - The Admin's id.
+   * @param {string} req.body.type - The Admin's type.
+   * @param {string} req.body.fName - The Admin's first name.
+   * @param {string} req.body.lName - The Admin's last name.
+   * @param {string} req.body.email - The Admin's email address.
+   * @param {number} req.body.mobile - The Admin's mobile number.
+   * @param {string} req.body.gender - The Admin's gender.
+   * @param {string} req.body.password - The Admin's password.
+   * @param {string} req.body.image - The Admin's avatar.
+   * @param {string} req.body.bio - The Admin's bio.
+   * @param {string} req.body.location - The Admin's location.
+   * @returns {object} the details of update Admin
    */
 
   updateProfile: async function (req, res) {
@@ -263,20 +266,20 @@ module.exports = {
       }
 
       const userId = req.user.id;
-      const isUser = await userRepo.getDetail({ _id: userId });
-      if (!isUser) {
+      const isAdmin = await userRepo.getDetail({ _id: userId });
+      if (!isAdmin) {
         return res.send(
           service.prepareResponse(HttpStatus.NOT_FOUND, Msg.USER_NOT_EXIST)
         );
       }
 
-      let userImage = isUser.image;
+      let userImage = isAdmin.image;
 
       if (req.files?.image) {
         userImage = await service.imageUpload(req.files.image, "profile-pic");
 
-        if (isUser.image) {
-          await service.deleteFile(isUser.image);
+        if (isAdmin.image) {
+          await service.deleteFile(isAdmin.image);
         }
         req.body.image = userImage;
       }
@@ -312,24 +315,24 @@ module.exports = {
         );
       }
 
-      const updateUser = await userRepo.update(userId, detail);
-      if (!updateUser) {
+      const updateAdmin = await userRepo.update(userId, detail);
+      if (!updateAdmin) {
         return res.send(
           service.prepareResponse(HttpStatus.BAD_REQUEST, Msg.USER_NOT_UPDATE)
         );
       }
 
       await mailRepo.userUpdateMail(
-        updateUser.fName,
-        updateUser.lName,
-        updateUser.mobile,
-        updateUser.email,
+        updateAdmin.fName,
+        updateAdmin.lName,
+        updateAdmin.mobile,
+        updateAdmin.email,
         req.body.password
       );
 
       return res.send(
         service.prepareResponse(HttpStatus.SUCCESS, Msg.SUCCESS, {
-          id: updateUser.id,
+          id: updateAdmin.id,
         })
       );
     } catch (error) {
@@ -344,33 +347,33 @@ module.exports = {
   },
 
   /**
-   * function to deactivate user account
+   * function to deactivate admin account
    *
-   * @param {string} req.user.id - The User's id.
-   * @returns {object} the details of deleted user
+   * @param {string} req.user.id - The Admin's id.
+   * @returns {object} the details of deleted admin
    */
   deactivateAccount: async function (req, res) {
     try {
       if (service.hasValidatorErrors(req, res)) {
         return;
       }
-      const userId = req.user.id;
-      const isUser = await userRepo.getDetail({ _id: userId });
-      if (!isUser) {
+      const adminId = req.user.id;
+      const isAdmin = await userRepo.getDetail({ _id: adminId });
+      if (!isAdmin) {
         return res.send(
           service.prepareResponse(HttpStatus.NOT_FOUND, Msg.USER_NOT_EXIST)
         );
       }
 
-      const deletedUser = await userRepo.deleteUser(userId);
       await mailRepo.userDeleteMail(
-        isUser.fName,
-        isUser.lName,
-        isUser.mobile,
-        isUser.email
+        isAdmin.fName,
+        isAdmin.lName,
+        isAdmin.mobile,
+        isAdmin.email
       );
 
-      if (!deletedUser) {
+      const deletedAdmin = await userRepo.deleteUser(adminId);
+      if (!deletedAdmin) {
         return res.send(
           service.prepareResponse(HttpStatus.BAD_REQUEST, Msg.USER_NOT_DELETED)
         );
@@ -378,7 +381,7 @@ module.exports = {
 
       return res.send(
         service.prepareResponse(HttpStatus.SUCCESS, Msg.USER_DELETE, {
-          id: deletedUser.id,
+          id: deletedAdmin.id,
         })
       );
     } catch (error) {
@@ -402,21 +405,22 @@ module.exports = {
   updatePassword: async function (req, res) {
     try {
       const userId = req.user.id;
-      const user = await userRepo.getDetail({ _id: userId });
+      const isUser = await userRepo.getDetail({ _id: userId });
       const newPassword = req.body.password;
       const hashPassword = await service.bcryptPassword(newPassword);
 
-      if (!user) {
+      if (!isUser) {
         return res.send(
           service.prepareResponse(HttpStatus.NOT_FOUND, Msg.USER_NOT_EXIST)
         );
       }
       await userRepo.update(userId, { password: hashPassword });
-      await mailRepo.passwordUpdMail(newPassword, user.email);
+      await mailRepo.passwordUpdMail(newPassword, isUser.email);
       return res.send(
         service.prepareResponse(HttpStatus.SUCCESS, Msg.PASSWORD_UPDATED)
       );
     } catch (error) {
+      console.error(error);
       return res.send(
         service.prepareResponse(
           HttpStatus.INTERNAL_SERVER_ERROR,

@@ -2,6 +2,9 @@
 
 const mongoose = require("mongoose");
 
+/**
+ * Schema for Comment Model
+ */
 const commentSchema = new mongoose.Schema(
   {
     content: {

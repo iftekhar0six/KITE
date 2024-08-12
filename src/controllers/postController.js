@@ -10,7 +10,7 @@ module.exports = {
    * function to create a post
    *
    * @param {string} req.body.content - The post content.
-   * @param {string} req.body.userId - The post creator.
+   * @param {string} req.user.id - The post creator.
    * @param {string} req.body.categoryId - The category id.
    * @param {string} req.body.subCategoryId - The subCategory id.
    * @returns {object} details of create post
@@ -22,7 +22,7 @@ module.exports = {
       }
       const detail = {
         content: req.body.content,
-        userId: req.body.userId,
+        userId: req.user.id,
         categoryId: req.body.categoryId,
         subCategoryId: req.body.subCategoryId,
       };
@@ -132,7 +132,7 @@ module.exports = {
       const postId = req.params.id;
       const detail = {
         content: req.body.content,
-        userId: req.body.userId,
+        userId: req.user.id,
         categoryId: req.body.categoryId,
         subCategoryId: req.body.subCategoryId,
       };
@@ -142,7 +142,7 @@ module.exports = {
           service.prepareResponse(HttpStatus.NOT_FOUND, Msg.POST_NOT_FOUND)
         );
       }
-      if (detail.userId || detail.categoryId || detail.subCategoryId) {
+      if (detail.categoryId || detail.subCategoryId) {
         return res.send(
           service.prepareResponse(HttpStatus.BAD_REQUEST, Msg.POST_BAD_CHANGE)
         );

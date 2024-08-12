@@ -2,11 +2,14 @@ const express = require("express");
 const router = express.Router();
 const { body, param } = require("express-validator");
 const { Msg } = require("../../utils/messageCode");
-const controller = require("../../controllers/userController");
+const controller = require("../../controllers/adminController");
 const { authenticateAdmin } = require("../../helpers/middleware");
 
+/**
+ * Router to create Admin
+ */
 router.post(
-  "/create",
+  "/signup",
   body("fName").notEmpty().withMessage(Msg.FNAME_REQUIRED),
   body("lName").notEmpty().withMessage(Msg.LNAME_REQUIRED),
   body("email")
@@ -30,6 +33,9 @@ router.post(
   controller.signUp
 );
 
+/**
+ * Router to login Admin
+ */
 router.post(
   "/login",
   body("email")
@@ -45,14 +51,69 @@ router.post(
   controller.login
 );
 
-router.get("/find", authenticateAdmin, controller.userDetail);
+/**
+ * Router to find Admin
+ */
+router.get("/detail", authenticateAdmin, controller.adminDetail);
 
+/**
+ * Router to list Admin
+ */
 router.get("/list", authenticateAdmin, controller.listUser);
 
-router.put("/update", authenticateAdmin, controller.updateProfile);
-
+/**
+ * Router to update Admin
+ */
+router.put(
+  "/update",
+  body("fName").optional().notEmpty().withMessage(Msg.FNAME_REQUIRED),
+  body("lName").optional().notEmpty().withMessage(Msg.LNAME_REQUIRED),
+  body("email")
+    .optional()
+    .notEmpty()
+    .withMessage(Msg.EMAIL_REQUIRED)
+    .isEmail()
+    .withMessage(Msg.EMAIL_INVALID),
+  body("mobile")
+    .optional()
+    .notEmpty()
+    .withMessage(Msg.USER_MOBILE_EXIST)
+    .isLength({ min: 10, max: 12 })
+    .withMessage(Msg.MOBILE_INVALID),
+  body("gender").optional().notEmpty().withMessage(Msg.GENDER_REQUIRED),
+  body("password")
+    .optional()
+    .notEmpty()
+    .withMessage(Msg.PASSWORD_REQUIRED)
+    .isLength({ min: 6 })
+    .withMessage(Msg.PASSWORD_LENGTH),
+  body("bio").optional().notEmpty().withMessage(Msg.BIO_REQUIRED),
+  body("location").optional().notEmpty().withMessage(Msg.LOCATION_REQUIRED),
+  authenticateAdmin,
+  controller.updateProfile
+);
+/**
+ * Router to delete Admin
+ */
 router.delete("/delete", authenticateAdmin, controller.deactivateAccount);
 
+/**
+ * Router to update password
+ */
+router.put(
+  "/update-password",
+  body("password")
+    .notEmpty()
+    .withMessage(Msg.PASSWORD_REQUIRED)
+    .isLength({ min: 6 })
+    .withMessage(Msg.PASSWORD_LENGTH),
+  authenticateAdmin,
+  controller.updatePassword
+);
+
+/**
+ * Router for forget password
+ */
 router.post(
   "/forget-password",
   body("email")
@@ -63,6 +124,9 @@ router.post(
   controller.forgetPassword
 );
 
+/**
+ * Router to reset password
+ */
 router.put(
   "/reset-password",
   body("password")
@@ -70,6 +134,7 @@ router.put(
     .withMessage(Msg.PASSWORD_REQUIRED)
     .isLength({ min: 6 })
     .withMessage(Msg.PASSWORD_LENGTH),
+  body("otp").notEmpty().withMessage(Msg.OTP_REQUIRED),
   controller.resetPassword
 );
 

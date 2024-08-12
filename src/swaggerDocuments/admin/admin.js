@@ -1,8 +1,8 @@
 /**
  * @swagger
- * /admins/create:
+ * /admin/signup:
  *   post:
- *     summary: Admin Registration
+ *     summary: admin registration
  *     tags: [Admins/Admin]
  *     requestBody:
  *       required: true
@@ -11,9 +11,6 @@
  *           schema:
  *             type: object
  *             properties:
- *               type:
- *                 type: integer
- *                 example: 2
  *               fName:
  *                 type: string
  *                 example: Tom
@@ -22,10 +19,10 @@
  *                 example: Robert
  *               email:
  *                 type: string
- *                 example: tom@gmail.com
+ *                 example: admin@tom.com
  *               mobile:
  *                 type: string
- *                 example: 1234567890
+ *                 example: 9425611586
  *               gender:
  *                 type: string
  *                 example: male
@@ -78,9 +75,9 @@
 
 /**
  * @swagger
- * /admins/login:
+ * /admin/login:
  *   post:
- *     summary: Admin Login
+ *     summary: admin login
  *     tags: [Admins/Admin]
  *     requestBody:
  *       required: true
@@ -91,7 +88,7 @@
  *             properties:
  *               email:
  *                 type: string
- *                 example: tom@gmail.com
+ *                 example: admin@tom.com
  *               password:
  *                 type: string
  *                 example: abc123
@@ -129,9 +126,9 @@
 
 /**
  * @swagger
- * /admins/find:
+ * /admin/detail:
  *   get:
- *     summary: Admin Profile
+ *     summary: admin profile
  *     tags: [Admins/Admin]
  *     responses:
  *       200:
@@ -169,9 +166,9 @@
 
 /**
  * @swagger
- * /admins/list:
+ * /admin/list:
  *   get:
- *     summary: List User
+ *     summary: list of users
  *     tags: [Admins/Admin]
  *     parameters:
  *       - in: query
@@ -290,9 +287,9 @@
 
 /**
  * @swagger
- * /admins/update:
+ * /admin/update:
  *   put:
- *     summary: Update Admin
+ *     summary: update admin profile
  *     tags: [Admins/Admin]
  *     requestBody:
  *       required: true
@@ -301,9 +298,6 @@
  *           schema:
  *             type: object
  *             properties:
- *               type:
- *                 type: integer
- *                 example: 2
  *               fName:
  *                 type: string
  *                 example: Tom
@@ -367,9 +361,9 @@
 
 /**
  * @swagger
- * /admins/delete:
+ * /admin/delete:
  *   delete:
- *     summary: Delete Admin
+ *     summary: deactivate admin profile
  *     tags: [Admins/Admin]
  *     responses:
  *       200:
@@ -407,9 +401,53 @@
 
 /**
  * @swagger
- * /admins/forget-password:
+ * /admin/update-password:
+ *   put:
+ *     summary: update password (while logged in)
+ *     tags: [Admins/Admin]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               password:
+ *                 type: string
+ *                 example: the_new_password
+ *     responses:
+ *       200:
+ *         description: success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 responseCode:
+ *                   type: integer
+ *                   example: 200
+ *                 responseMessage:
+ *                   type: string
+ *                   example: Password updated
+ *       500:
+ *         description: failed
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 responseCode:
+ *                   type: integer
+ *                 responseMessage:
+ *                   type: string
+ *                   example: Error message
+ */
+
+/**
+ * @swagger
+ * /admin/forget-password:
  *   post:
- *     summary: Forget Password
+ *     summary: forget password (send otp to registered email)
  *     tags: [Admins/Admin]
  *     requestBody:
  *       required: true
@@ -452,9 +490,9 @@
 
 /**
  * @swagger
- * /admins/reset-password:
+ * /admin/reset-password:
  *   put:
- *     summary: Reset Password
+ *     summary: reset password (reset new password for account via otp)
  *     tags: [Admins/Admin]
  *     requestBody:
  *       required: true

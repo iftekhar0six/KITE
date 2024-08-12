@@ -1,8 +1,8 @@
 /**
  * @swagger
- * /admins/messages/create:
+ * /admin/messages/send:
  *   post:
- *     summary: Admin Create Message
+ *     summary: message send by admin
  *     tags: [Admins/Message]
  *     requestBody:
  *       required: true
@@ -51,12 +51,11 @@
  *                   example: Error message
  */
 
-
 /**
  * @swagger
- * /admins/messages/delete/{id}:
+ * /admin/messages/remove/{id}:
  *   delete:
- *     summary: Delete Message
+ *     summary: message removed by admin (by id)
  *     tags: [Admins/Message]
  *     parameters:
  *       - in: path

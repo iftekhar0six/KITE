@@ -8,6 +8,9 @@ const { authenticateUser } = require("../../helpers/middleware");
 
 const controller = require("../../controllers/followController");
 
+/**
+ * Router to follow/unfollows
+ */
 router.post(
   "/follow",
   body("followingId")

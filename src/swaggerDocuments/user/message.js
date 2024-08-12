@@ -1,8 +1,8 @@
 /**
  * @swagger
- * /users/messages/create:
+ * /v1/messages/send:
  *   post:
- *     summary: User Create Message
+ *     summary: user send message
  *     tags: [Users/Message]
  *     requestBody:
  *       required: true
@@ -53,9 +53,9 @@
 
 /**
  * @swagger
- * /users/messages/delete/{id}:
+ * /v1/messages/remove/{id}:
  *   delete:
- *     summary: Delete Message
+ *     summary: user delete message (by id)
  *     tags: [Users/Message]
  *     parameters:
  *       - in: path

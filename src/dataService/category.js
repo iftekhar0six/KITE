@@ -88,9 +88,14 @@ async function list(searchTerm, page, limit) {
  * @returns {object} the updated category
  */
 async function update(categoryId, categoryInfo) {
-  const data = await category.findByIdAndUpdate(categoryId, categoryInfo, {
-    new: true,
-  });
+  const data = await category.findByIdAndUpdate(
+    categoryId,
+    categoryInfo,
+    { updatedAt: Number(Date.now) },
+    {
+      new: true,
+    }
+  );
   return data;
 }
 
@@ -101,7 +106,14 @@ async function update(categoryId, categoryInfo) {
  * @returns {object} the deleted category
  */
 async function deleteCategory(categoryId) {
-  const data = await category.findByIdAndDelete(categoryId);
+  const categoryInfo = {
+    isActive: false,
+    updatedAt: Number(Date.now),
+  };
+  const data = await category.findByIdAndUpdate(categoryId, categoryInfo, {
+    new: true,
+  });
+
   return data;
 }
 

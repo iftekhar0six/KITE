@@ -105,9 +105,14 @@ async function list(page, limit) {
  * @returns {object} the updated post
  */
 async function update(postId, postInfo) {
-  const data = await post.findByIdAndUpdate(postId, postInfo, {
-    new: true,
-  });
+  const data = await post.findByIdAndUpdate(
+    postId,
+    postInfo,
+    { updatedAt: Number(Date.now) },
+    {
+      new: true,
+    }
+  );
   return data;
 }
 
@@ -118,7 +123,14 @@ async function update(postId, postInfo) {
  * @returns {object} the deleted post
  */
 async function deletePost(postId) {
-  const data = await post.findByIdAndDelete(postId);
+  const postInfo = {
+    isActive: false,
+    updatedAt: Number(Date.now),
+  };
+  const data = await post.findByIdAndUpdate(postId, postInfo, {
+    new: true,
+  });
+
   return data;
 }
 

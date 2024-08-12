@@ -116,7 +116,7 @@ async function list(page, limit) {
  * @returns {object} the updated comment
  */
 async function update(commentId, commentInfo) {
-  const data = await comment.findByIdAndUpdate(commentId, commentInfo, {
+  const data = await comment.findByIdAndUpdate(commentId, commentInfo,{ updatedAt: Number(Date.now) }, {
     new: true,
   });
   return data;

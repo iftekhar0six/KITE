@@ -2,6 +2,9 @@
 
 const mongoose = require("mongoose");
 
+/**
+ * Schema for SubCategory Model
+ */
 const subCategorySchema = new mongoose.Schema(
   {
     name: {
@@ -21,6 +24,10 @@ const subCategorySchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "categories",
       required: true,
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
     },
     updatedAt: {
       type: Number,

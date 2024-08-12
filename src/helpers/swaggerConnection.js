@@ -3,6 +3,9 @@
 require("dotenv").config();
 const swaggerJsdoc = require("swagger-jsdoc");
 
+/**
+ * Options for swagger
+ */
 const options = {
   swaggerDefinition: {
     openapi: "3.0.0",

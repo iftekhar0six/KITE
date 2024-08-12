@@ -11,7 +11,7 @@ module.exports = {
    *
    * @param {string} req.body.name - The category name.
    * @param {string} req.body.description - The category description.
-   * @param {string} req.body.userId - The category creator.
+   * @param {string} req.user.id - The category creator.
    * @returns {object} details of create category
    */
   create: async function (req, res) {
@@ -22,7 +22,7 @@ module.exports = {
       const detail = {
         name: req.body.name,
         description: req.body.description,
-        userId: req.body.userId,
+        userId: req.user.id,
       };
       const isCategoryExist = await categoryRepo.getDetail({
         name: detail.name,
@@ -125,7 +125,7 @@ module.exports = {
    * @param {string} req.params.id - The category id.
    * @param {string} req.body.name - The category name.
    * @param {string} req.body.description - The category description.
-   * @param {string} req.body.userId - The category creator.
+   * @param {string} req.user.id - The category creator.
    * @returns {object} details of updated category
    */
   updateCategory: async function (req, res) {
@@ -137,7 +137,7 @@ module.exports = {
       const detail = {
         name: req.body.name,
         description: req.body.description,
-        userId: req.body.userId,
+        userId: req.user.id,
       };
       const isCategory = await categoryRepo.getDetail({ _id: categoryId });
       if (!isCategory) {
@@ -145,7 +145,7 @@ module.exports = {
           service.prepareResponse(HttpStatus.NOT_FOUND, Msg.CATEGORY_NOT_FOUND)
         );
       }
-      if (detail.name || detail.userId) {
+      if (detail.name) {
         return res.send(
           service.prepareResponse(
             HttpStatus.BAD_REQUEST,

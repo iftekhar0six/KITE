@@ -1,8 +1,8 @@
 /**
  * @swagger
- * /admins/follows/follow:
+ * /admin/follows/follow:
  *   post:
- *     summary: Admin Follow
+ *     summary: follow by admin account
  *     tags: [Admins/Follow]
  *     requestBody:
  *       required: true
@@ -44,9 +44,9 @@
 
 /**
  * @swagger
- * /admins/follows/list:
+ * /admin/follows/list:
  *   get:
- *     summary: List Comment
+ *     summary: list follower/following detail by admin
  *     tags: [Admins/Follow]
  *     parameters:
  *       - in: query

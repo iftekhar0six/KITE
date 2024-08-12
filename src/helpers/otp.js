@@ -2,6 +2,7 @@
 
 const otpGenerator = require("otp-generator");
 const otp = require("../models/otp");
+
 /**
  * function for otp generation
  *

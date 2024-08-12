@@ -7,17 +7,22 @@ const controller = require("../../controllers/messageController");
 const { Msg } = require("../../utils/messageCode");
 const { authenticateUser } = require("../../helpers/middleware");
 
+/**
+ * Router to create message
+ */
 router.post(
-  "/create",
+  "/send",
   body("content").notEmpty().withMessage(Msg.MESSAGE_CONTENT_REQUIRED),
-  body("senderId").notEmpty().withMessage(Msg.MESSAGE_SENDER_REQUIRED),
   body("receiverId").notEmpty().withMessage(Msg.MESSAGE_RECEIVER_REQUIRED),
   authenticateUser,
   controller.create
 );
 
+/**
+ * Router to delete message
+ */
 router.delete(
-  "/delete/:id",
+  "/remove/:id",
   param("id").isMongoId().withMessage(Msg.INVALID_ID),
   authenticateUser,
   controller.deleteMessage

@@ -3,6 +3,9 @@
 const mongoose = require("mongoose");
 const { type, status } = require("../helpers/enum");
 
+/**
+ * Schema for User Model
+ */
 const userSchema = new mongoose.Schema(
   {
     type: {

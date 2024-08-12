@@ -1,8 +1,8 @@
 /**
  * @swagger
- * /users/comments/create:
+ * /v1/categories/sub-categories/posts/comments/create:
  *   post:
- *     summary: User Create Comment
+ *     summary: user create comment
  *     tags: [Users/Comment]
  *     requestBody:
  *       required: true
@@ -14,9 +14,6 @@
  *               content:
  *                 type: string
  *                 example: This category contains movie
- *               userId:
- *                 type: string
- *                 example: 66b0a7a86706e973eb375ea2
  *               categoryId:
  *                 type: string
  *                 example: 66b0a7a86706e973eb375ea2
@@ -62,9 +59,9 @@
 
 /**
  * @swagger
- * /users/comments/find/{id}:
+ * /v1/categories/sub-categories/posts/comments/detail/{id}:
  *   get:
- *     summary: Retrieve Comment
+ *     summary: retrieve comment (by id)
  *     tags: [Users/Comment]
  *     parameters:
  *       - in: path
@@ -110,9 +107,9 @@
 
 /**
  * @swagger
- * /users/comments/update/{id}:
+ * /v1/categories/sub-categories/posts/comments/update/{id}:
  *   put:
- *     summary: Update Comment
+ *     summary: update comment (by id)
  *     tags: [Users/Comment]
  *     parameters:
  *       - in: path
@@ -132,9 +129,6 @@
  *               content:
  *                 type: string
  *                 example: Science Comment Description
- *               userId:
- *                 type: string
- *                 example: 66b1dca2c36ae9989d92810c
  *               categoryId:
  *                 type: string
  *                 example: 66b1dca2c36ae9989d92810c
@@ -180,9 +174,9 @@
 
 /**
  * @swagger
- * /users/comments/delete/{id}:
+ * /v1/categories/sub-categories/posts/comments/delete/{id}:
  *   delete:
- *     summary: Delete Comment
+ *     summary: delete comment (by id)
  *     tags: [Users/Comment]
  *     parameters:
  *       - in: path
