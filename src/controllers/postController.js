@@ -1,6 +1,7 @@
 "use strict";
 
 const postRepo = require("../dataService/post");
+const userRepo = require("../dataService/user");
 const service = require("../helpers/service");
 const { HttpStatus } = require("../utils/httpStatus");
 const { Msg } = require("../utils/messageCode");
@@ -142,6 +143,16 @@ module.exports = {
           service.prepareResponse(HttpStatus.NOT_FOUND, Msg.POST_NOT_FOUND)
         );
       }
+
+      const authUser = await userRepo.getDetail({
+        _id: detail.userId,
+      });
+      if (authUser.type === 1 && detail.userId !== isPost.userId.toString()) {
+        return res.send(
+          service.prepareResponse(HttpStatus.UNAUTHORIZED, Msg.NO_USER_ACCESS)
+        );
+      }
+
       if (detail.categoryId || detail.subCategoryId) {
         return res.send(
           service.prepareResponse(HttpStatus.BAD_REQUEST, Msg.POST_BAD_CHANGE)
@@ -174,6 +185,7 @@ module.exports = {
    * function to delete post
    *
    * @param {string} req.params.id - The post id.
+   * @param {string} req.user.id - The user's id.
    * @returns {object} the details of deleted post
    */
   deletePost: async function (req, res) {
@@ -182,12 +194,20 @@ module.exports = {
         return;
       }
       const postId = req.params.id;
+      const userId = req.user.id;
       const isPost = await postRepo.getDetail({
         _id: postId,
       });
       if (!isPost) {
         return res.send(
           service.prepareResponse(HttpStatus.NOT_FOUND, Msg.POST_NOT_FOUND)
+        );
+      }
+
+      const authUser = await userRepo.getDetail({ _id: userId });
+      if (authUser.type === 1 && userId !== isPost.userId.toString()) {
+        return res.send(
+          service.prepareResponse(HttpStatus.UNAUTHORIZED, Msg.NO_USER_ACCESS)
         );
       }
 

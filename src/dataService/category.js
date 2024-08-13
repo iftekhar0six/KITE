@@ -1,5 +1,6 @@
 "use strict";
 
+const { status } = require("../helpers/enum");
 const category = require("../models/category");
 
 /**
@@ -88,14 +89,9 @@ async function list(searchTerm, page, limit) {
  * @returns {object} the updated category
  */
 async function update(categoryId, categoryInfo) {
-  const data = await category.findByIdAndUpdate(
-    categoryId,
-    categoryInfo,
-    { updatedAt: Number(Date.now) },
-    {
-      new: true,
-    }
-  );
+  const data = await category.findByIdAndUpdate(categoryId, categoryInfo, {
+    new: true,
+  });
   return data;
 }
 
@@ -107,8 +103,7 @@ async function update(categoryId, categoryInfo) {
  */
 async function deleteCategory(categoryId) {
   const categoryInfo = {
-    isActive: false,
-    updatedAt: Number(Date.now),
+    status: status.Inactive,
   };
   const data = await category.findByIdAndUpdate(categoryId, categoryInfo, {
     new: true,

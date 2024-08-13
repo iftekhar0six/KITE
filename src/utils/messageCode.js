@@ -108,6 +108,7 @@ const Msg = {
   INTERNAL_SERVER_ERROR: "Internal server error",
   INVALID_ID: "Enter a valid Id",
   MAIL_ERROR: "Error in sending password update mail",
+  NO_USER_ACCESS: "User cannot access this functionality",
 
   // SUCCESS
   SUCCESS: "Success",
@@ -129,6 +130,9 @@ const Msg = {
   OTP_SENT: "Otp send successfully",
   OTP_REQUIRED: "Otp required",
   NO_USER_EMAIL: "No user exist with this email",
+
+  // EXTRAS
+  ID_REQUIRED: "Id required",
 };
 
 module.exports = { Msg };

@@ -1,6 +1,7 @@
 "use strict";
 
 const commentRepo = require("../dataService/comment");
+const userRepo = require("../dataService/user");
 const service = require("../helpers/service");
 const { HttpStatus } = require("../utils/httpStatus");
 const { Msg } = require("../utils/messageCode");
@@ -139,6 +140,7 @@ module.exports = {
         subCategoryId: req.body.subCategoryId,
         postId: req.body.postId,
       };
+
       const isComment = await commentRepo.getDetail({
         _id: commentId,
       });
@@ -147,6 +149,19 @@ module.exports = {
           service.prepareResponse(HttpStatus.NOT_FOUND, Msg.COMMENT_NOT_FOUND)
         );
       }
+
+      const authUser = await userRepo.getDetail({
+        _id: detail.userId,
+      });
+      if (
+        authUser.type === 1 &&
+        detail.userId !== isComment.userId.toString()
+      ) {
+        return res.send(
+          service.prepareResponse(HttpStatus.UNAUTHORIZED, Msg.NO_USER_ACCESS)
+        );
+      }
+
       if (detail.categoryId || detail.subCategoryId || detail.postId) {
         return res.send(
           service.prepareResponse(
@@ -172,6 +187,8 @@ module.exports = {
         })
       );
     } catch (error) {
+      console.error(error);
+
       return res.send(
         service.prepareResponse(
           HttpStatus.INTERNAL_SERVER_ERROR,
@@ -185,6 +202,7 @@ module.exports = {
    * function to delete comment
    *
    * @param {string} req.params.id - The comment id.
+   * @param {string} req.user.id - The user's id.
    * @returns {object} the details of deleted comment
    */
   deleteComment: async function (req, res) {
@@ -193,12 +211,22 @@ module.exports = {
         return;
       }
       const commentId = req.params.id;
+      const userId = req.user.id;
       const isComment = await commentRepo.getDetail({
         _id: commentId,
       });
       if (!isComment) {
         return res.send(
           service.prepareResponse(HttpStatus.NOT_FOUND, Msg.COMMENT_NOT_FOUND)
+        );
+      }
+
+      const authUser = await userRepo.getDetail({
+        _id: userId,
+      });
+      if (authUser.type === 1 && userId !== isComment.userId.toString()) {
+        return res.send(
+          service.prepareResponse(HttpStatus.UNAUTHORIZED, Msg.NO_USER_ACCESS)
         );
       }
 

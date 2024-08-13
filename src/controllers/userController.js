@@ -96,7 +96,6 @@ module.exports = {
         })
       );
     } catch (error) {
-      console.error(error);
       return res.send(
         service.prepareResponse(
           HttpStatus.INTERNAL_SERVER_ERROR,
@@ -253,7 +252,7 @@ module.exports = {
    * @param {string} req.body.image - The User's avatar.
    * @param {string} req.body.bio - The User's bio.
    * @param {string} req.body.location - The User's location.
-   * @returns {object} the details of create user
+   * @returns {object} the details of update user
    */
 
   updateProfile: async function (req, res) {
@@ -333,7 +332,6 @@ module.exports = {
         })
       );
     } catch (error) {
-      console.error(error);
       return res.send(
         service.prepareResponse(
           HttpStatus.INTERNAL_SERVER_ERROR,
@@ -382,7 +380,6 @@ module.exports = {
         })
       );
     } catch (error) {
-      console.error(error);
       return res.send(
         service.prepareResponse(
           HttpStatus.INTERNAL_SERVER_ERROR,

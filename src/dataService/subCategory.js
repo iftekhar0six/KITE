@@ -1,5 +1,6 @@
 "use strict";
 
+const { status } = require("../helpers/enum");
 const subCategory = require("../models/subCategory");
 
 /**
@@ -102,7 +103,6 @@ async function update(subCategoryId, subCategoryInfo) {
   const data = await subCategory.findByIdAndUpdate(
     subCategoryId,
     subCategoryInfo,
-    { updatedAt: Number(Date.now) },
     {
       new: true,
     }
@@ -118,8 +118,7 @@ async function update(subCategoryId, subCategoryInfo) {
  */
 async function deleteSubCategory(subCategoryId) {
   const subCategoryInfo = {
-    isActive: false,
-    updatedAt: Number(Date.now),
+    status: status.Inactive,
   };
   const data = await subCategory.findByIdAndUpdate(
     subCategoryId,

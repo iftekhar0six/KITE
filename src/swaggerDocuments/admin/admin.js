@@ -534,3 +534,133 @@
  *                   type: string
  *                   example: Error message
  */
+
+/**
+ * @swagger
+ * /admin/update-by-id/{id}:
+ *   put:
+ *     summary: update user's profile by id
+ *     tags: [Admins/Admin]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: MongoID of the user to update profile
+ *         schema:
+ *           type: string
+ *           example: 66acb05e066a0832ccee4a4a
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               fName:
+ *                 type: string
+ *                 example: Tom2
+ *               lName:
+ *                 type: string
+ *                 example: Robert2
+ *               email:
+ *                 type: string
+ *                 example: tom2@gmail.com
+ *               mobile:
+ *                 type: integer
+ *                 example: 9415688455
+ *               gender:
+ *                 type: string
+ *                 example: male
+ *               password:
+ *                 type: string
+ *                 example: Password
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *               bio:
+ *                 type: string
+ *                 example: This is bio
+ *               location:
+ *                 type: string
+ *                 example: New street, California
+ *     responses:
+ *       200:
+ *         description: success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 responseCode:
+ *                   type: integer
+ *                   example: 200
+ *                 responseMessage:
+ *                   type: string
+ *                   example: Profile updated
+ *                 responseData:
+ *                   type: object
+ *                   properties:
+ *                     _id:
+ *                       type: string
+ *                       example: 66b0c8f5cb3f10683d8688ff
+ *       500:
+ *         description: failed
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 responseCode:
+ *                   type: integer
+ *                 responseMessage:
+ *                   type: string
+ *                   example: Error message
+ */
+
+/**
+ * @swagger
+ * /admin/delete-by-id/{id}:
+ *   delete:
+ *     summary: deactivate user profile by id
+ *     tags: [Admins/Admin]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: MongoID of the User to deactivate account
+ *         schema:
+ *           type: string
+ *           example: 66acb05e066a0832ccee4a4a
+ *     responses:
+ *       200:
+ *         description: success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 responseCode:
+ *                   type: integer
+ *                   example: 200
+ *                 responseMessage:
+ *                   type: string
+ *                   example: User deleted
+ *                 responseData:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                       example: 66acb05e066a0832ccee4a4a
+ *       500:
+ *         description: failed
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 responseCode:
+ *                   type: integer
+ *                 responseMessage:
+ *                   type: string
+ *                   example: Error message
+ */

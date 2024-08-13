@@ -138,4 +138,55 @@ router.put(
   controller.resetPassword
 );
 
+/**
+ * Router to update User by Id from Admin
+ */
+router.put(
+  "/update-by-id/:id",
+  param("id")
+    .notEmpty()
+    .withMessage(Msg.ID_REQUIRED)
+    .isMongoId()
+    .withMessage(Msg.INVALID_ID),
+  body("fName").optional().notEmpty().withMessage(Msg.FNAME_REQUIRED),
+  body("lName").optional().notEmpty().withMessage(Msg.LNAME_REQUIRED),
+  body("email")
+    .optional()
+    .notEmpty()
+    .withMessage(Msg.EMAIL_REQUIRED)
+    .isEmail()
+    .withMessage(Msg.EMAIL_INVALID),
+  body("mobile")
+    .optional()
+    .notEmpty()
+    .withMessage(Msg.USER_MOBILE_EXIST)
+    .isLength({ min: 10, max: 12 })
+    .withMessage(Msg.MOBILE_INVALID),
+  body("gender").optional().notEmpty().withMessage(Msg.GENDER_REQUIRED),
+  body("password")
+    .optional()
+    .notEmpty()
+    .withMessage(Msg.PASSWORD_REQUIRED)
+    .isLength({ min: 6 })
+    .withMessage(Msg.PASSWORD_LENGTH),
+  body("bio").optional().notEmpty().withMessage(Msg.BIO_REQUIRED),
+  body("location").optional().notEmpty().withMessage(Msg.LOCATION_REQUIRED),
+  authenticateAdmin,
+  controller.updateUserById
+);
+
+/**
+ * Router to delete User by Id from Admin
+ */
+router.delete(
+  "/delete-by-id/:id",
+  param("id")
+    .notEmpty()
+    .withMessage(Msg.ID_REQUIRED)
+    .isMongoId()
+    .withMessage(Msg.INVALID_ID),
+  authenticateAdmin,
+  controller.deactivateUserById
+);
+
 module.exports = router;

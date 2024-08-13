@@ -42,6 +42,19 @@ router.get("/list", authenticateAdmin, controller.listComment);
 router.put(
   "/update/:id",
   param("id").isMongoId().withMessage(Msg.INVALID_ID),
+  body("content")
+    .optional()
+    .notEmpty()
+    .withMessage(Msg.COMMENT_CONTENT_REQUIRED),
+  body("categoryId")
+    .optional()
+    .notEmpty()
+    .withMessage(Msg.CATEGORY_ID_REQUIRED),
+  body("subCategoryId")
+    .optional()
+    .notEmpty()
+    .withMessage(Msg.SUBCATEGORY_ID_REQUIRED),
+  body("postId").notEmpty().optional().withMessage(Msg.POST_ID_REQUIRED),
   authenticateAdmin,
   controller.updateComment
 );

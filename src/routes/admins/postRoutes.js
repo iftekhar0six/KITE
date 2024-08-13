@@ -41,6 +41,15 @@ router.get("/list", authenticateAdmin, controller.listPost);
 router.put(
   "/update/:id",
   param("id").isMongoId().withMessage(Msg.INVALID_ID),
+  body("content").optional().notEmpty().withMessage(Msg.POST_CONTENT_REQUIRED),
+  body("categoryId")
+    .optional()
+    .notEmpty()
+    .withMessage(Msg.CATEGORY_ID_REQUIRED),
+  body("subCategoryId")
+    .optional()
+    .notEmpty()
+    .withMessage(Msg.SUBCATEGORY_ID_REQUIRED),
   authenticateAdmin,
   controller.updatePost
 );

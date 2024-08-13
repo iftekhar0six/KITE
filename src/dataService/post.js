@@ -1,5 +1,6 @@
 "use strict";
 
+const { status } = require("../helpers/enum");
 const post = require("../models/post");
 
 /**
@@ -105,14 +106,9 @@ async function list(page, limit) {
  * @returns {object} the updated post
  */
 async function update(postId, postInfo) {
-  const data = await post.findByIdAndUpdate(
-    postId,
-    postInfo,
-    { updatedAt: Number(Date.now) },
-    {
-      new: true,
-    }
-  );
+  const data = await post.findByIdAndUpdate(postId, postInfo, {
+    new: true,
+  });
   return data;
 }
 
@@ -124,8 +120,7 @@ async function update(postId, postInfo) {
  */
 async function deletePost(postId) {
   const postInfo = {
-    isActive: false,
-    updatedAt: Number(Date.now),
+    status: status.Inactive,
   };
   const data = await post.findByIdAndUpdate(postId, postInfo, {
     new: true,

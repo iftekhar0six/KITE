@@ -95,7 +95,6 @@ module.exports = {
         })
       );
     } catch (error) {
-      console.error(error);
       return res.send(
         service.prepareResponse(
           HttpStatus.INTERNAL_SERVER_ERROR,
@@ -336,7 +335,6 @@ module.exports = {
         })
       );
     } catch (error) {
-      console.error(error);
       return res.send(
         service.prepareResponse(
           HttpStatus.INTERNAL_SERVER_ERROR,
@@ -385,7 +383,6 @@ module.exports = {
         })
       );
     } catch (error) {
-      console.error(error);
       return res.send(
         service.prepareResponse(
           HttpStatus.INTERNAL_SERVER_ERROR,
@@ -420,7 +417,6 @@ module.exports = {
         service.prepareResponse(HttpStatus.SUCCESS, Msg.PASSWORD_UPDATED)
       );
     } catch (error) {
-      console.error(error);
       return res.send(
         service.prepareResponse(
           HttpStatus.INTERNAL_SERVER_ERROR,
@@ -491,6 +487,157 @@ module.exports = {
       await otpRepo.deleteOtp(isOtp._id);
       return res.send(
         service.prepareResponse(HttpStatus.SUCCESS, Msg.PASSWORD_UPDATED)
+      );
+    } catch (error) {
+      return res.send(
+        service.prepareResponse(
+          HttpStatus.INTERNAL_SERVER_ERROR,
+          Msg.INTERNAL_SERVER_ERROR
+        )
+      );
+    }
+  },
+
+  /**
+   * function to update an user by id
+   *
+   * @param {string} req.params.id - The User's id.
+   * @param {string} req.body.type - The User's type.
+   * @param {string} req.body.fName - The User's first name.
+   * @param {string} req.body.lName - The User's last name.
+   * @param {string} req.body.email - The User's email address.
+   * @param {number} req.body.mobile - The User's mobile number.
+   * @param {string} req.body.gender - The User's gender.
+   * @param {string} req.body.password - The User's password.
+   * @param {string} req.body.image - The User's avatar.
+   * @param {string} req.body.bio - The User's bio.
+   * @param {string} req.body.location - The User's location.
+   * @returns {object} the details of update user
+   */
+
+  updateUserById: async function (req, res) {
+    try {
+      if (service.hasValidatorErrors(req, res)) {
+        return;
+      }
+
+      const userId = req.params.id;
+      const isUser = await userRepo.getDetail({ _id: userId });
+      if (!isUser) {
+        return res.send(
+          service.prepareResponse(HttpStatus.NOT_FOUND, Msg.USER_NOT_EXIST)
+        );
+      }
+
+      let userImage = isUser.image;
+
+      if (req.files?.image) {
+        userImage = await service.imageUpload(req.files.image, "profile-pic");
+
+        if (isUser.image) {
+          await service.deleteFile(isUser.image);
+        }
+        req.body.image = userImage;
+      }
+
+      const detail = {
+        fName: req.body.fName,
+        lName: req.body.lName,
+        email: req.body.email,
+        mobile: req.body.mobile,
+        gender: req.body.gender,
+        password: await service.bcryptPassword(req.body.password),
+        image: userImage,
+        bio: req.body.bio,
+        location: req.body.location,
+      };
+
+      const isEmailExist = await userRepo.getDetail({ email: detail.email });
+      if (isEmailExist) {
+        return res.send(
+          service.prepareResponse(
+            HttpStatus.ALREADY_EXIST,
+            Msg.USER_EMAIL_EXIST
+          )
+        );
+      }
+      const isMobileExist = await userRepo.getDetail({ mobile: detail.mobile });
+      if (isMobileExist) {
+        return res.send(
+          service.prepareResponse(
+            HttpStatus.ALREADY_EXIST,
+            Msg.USER_MOBILE_EXIST
+          )
+        );
+      }
+
+      const updateUser = await userRepo.update(userId, detail);
+      if (!updateUser) {
+        return res.send(
+          service.prepareResponse(HttpStatus.BAD_REQUEST, Msg.USER_NOT_UPDATE)
+        );
+      }
+
+      await mailRepo.userUpdByAdmin(
+        updateUser.fName,
+        updateUser.lName,
+        updateUser.mobile,
+        updateUser.email,
+        req.body.password
+      );
+
+      return res.send(
+        service.prepareResponse(HttpStatus.SUCCESS, Msg.SUCCESS, {
+          id: updateUser.id,
+        })
+      );
+    } catch (error) {
+      return res.send(
+        service.prepareResponse(
+          HttpStatus.INTERNAL_SERVER_ERROR,
+          Msg.INTERNAL_SERVER_ERROR
+        )
+      );
+    }
+  },
+
+  /**
+   * function to deactivate user account by id
+   *
+   * @param {string} req.params.id - The User's id.
+   * @returns {object} the details of deleted user
+   */
+  deactivateUserById: async function (req, res) {
+    try {
+      if (service.hasValidatorErrors(req, res)) {
+        return;
+      }
+      const userId = req.params.id;
+      const isUser = await userRepo.getDetail({ _id: userId });
+      if (!isUser) {
+        return res.send(
+          service.prepareResponse(HttpStatus.NOT_FOUND, Msg.USER_NOT_EXIST)
+        );
+      }
+
+      await mailRepo.userAccDeleteByAdmin(
+        isUser.fName,
+        isUser.lName,
+        isUser.mobile,
+        isUser.email
+      );
+
+      const deletedUser = await userRepo.deleteUser(userId);
+      if (!deletedUser) {
+        return res.send(
+          service.prepareResponse(HttpStatus.BAD_REQUEST, Msg.USER_NOT_DELETED)
+        );
+      }
+
+      return res.send(
+        service.prepareResponse(HttpStatus.SUCCESS, Msg.USER_DELETE, {
+          id: deletedUser.id,
+        })
       );
     } catch (error) {
       return res.send(

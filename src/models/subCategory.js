@@ -1,6 +1,7 @@
 "use strict";
 
 const mongoose = require("mongoose");
+const { status } = require("../helpers/enum");
 
 /**
  * Schema for SubCategory Model
@@ -25,9 +26,10 @@ const subCategorySchema = new mongoose.Schema(
       ref: "categories",
       required: true,
     },
-    isActive: {
-      type: Boolean,
-      default: true,
+    status: {
+      type: Number,
+      enum: [status.Active, status.Inactive],
+      default: status.Active,
     },
     updatedAt: {
       type: Number,

@@ -137,6 +137,7 @@ async function userDeleteMail(fName, lName, mobile, email) {
  * function to send mail when user deactivate's account
  *
  * @param {string} newPassword the updated password of user
+ * @param {string} email the email address to be mailed
  * @returns the mail to user's mail address
  */
 async function passwordUpdMail(newPassword, email) {
@@ -154,6 +155,7 @@ async function passwordUpdMail(newPassword, email) {
  * function to send otp to the registered mail address
  *
  * @param {string} otp otp for resetting password
+ * @param {string} email the email address to be mailed
  * @returns the mail to user's mail address
  */
 async function otpMailer(otp, email) {
@@ -171,6 +173,7 @@ async function otpMailer(otp, email) {
  * function to send mail of reset new password
  *
  * @param {string} newPassword the new password
+ * @param {string} email the email address to be mailed
  * @returns the mail to user's mail address
  */
 async function resetPassword(newPassword, email) {
@@ -179,6 +182,58 @@ async function resetPassword(newPassword, email) {
     to: email,
     subject: "Password updated on KITE",
     text: `Your new updated password for KITE profile is: ${newPassword}`,
+  };
+
+  return mailer(mailData);
+}
+
+/**
+ * function to send mail when admin updates an user's profile
+ *
+ * @param {string} fName first name of user
+ * @param {string} lName last name of user
+ * @param {string} mobile mobile number of user
+ * @param {string} email email address of user
+ * @param {string} password password of the user
+ * @returns the mail to user's mail address
+ */
+async function userUpdByAdmin(fName, lName, mobile, email, password) {
+  const mailData = {
+    from: process.env.MAIL_ID,
+    to: email,
+    subject: "KITE profile update by Admin",
+    text: `Dear ${fName},
+        Your profile has been updated by admin
+        Name: ${fName} ${lName}
+        Mobile No.: ${mobile}
+        email: ${email}
+        password: ${password}
+        `,
+  };
+
+  return mailer(mailData);
+}
+
+/**
+ * function to send mail when user account is deactivated by Admin
+ *
+ * @param {string} fName first name of user
+ * @param {string} lName last name of user
+ * @param {string} mobile mobile number of user
+ * @param {string} email email address of user
+ * @returns the mail to user's mail address
+ */
+async function userAccDeleteByAdmin(fName, lName, mobile, email) {
+  const mailData = {
+    from: process.env.MAIL_ID,
+    to: email,
+    subject: "KITE profile deactivation by Admin",
+    text: `Dear ${fName},
+    Your KITE profile has been deactivated by Admin
+    Name: ${fName} ${lName}
+    Mobile No.: ${mobile}
+    email: ${email}
+    `,
   };
 
   return mailer(mailData);
@@ -193,4 +248,6 @@ module.exports = {
   passwordUpdMail: passwordUpdMail,
   otpMailer: otpMailer,
   resetPassword: resetPassword,
+  userUpdByAdmin: userUpdByAdmin,
+  userAccDeleteByAdmin: userAccDeleteByAdmin,
 };

@@ -40,6 +40,11 @@ router.get("/list", authenticateAdmin, controller.listCategory);
 router.put(
   "/update/:id",
   param("id").isMongoId().withMessage(Msg.INVALID_ID),
+  body("name").optional().notEmpty().withMessage(Msg.CATEGORY_NAME_REQUIRED),
+  body("description")
+    .optional()
+    .notEmpty()
+    .withMessage(Msg.CATEGORY_DESCRIPTION_REQUIRED),
   authenticateAdmin,
   controller.updateCategory
 );

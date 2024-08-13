@@ -56,14 +56,9 @@ async function list(searchTerm, page, limit) {
  * @returns {object} the updated user
  */
 async function update(userId, userInfo) {
-  const data = await user.findByIdAndUpdate(
-    userId,
-    userInfo,
-    { updatedAt: Number(Date.now) },
-    {
-      new: true,
-    }
-  );
+  const data = await user.findByIdAndUpdate(userId, userInfo, {
+    new: true,
+  });
   return data;
 }
 
@@ -80,14 +75,9 @@ async function deleteUser(userId) {
     password: null,
     isDeleted: true,
   };
-  const data = await user.findByIdAndUpdate(
-    userId,
-    userInfo,
-    { updatedAt: Number(Date.now) },
-    {
-      new: true,
-    }
-  );
+  const data = await user.findByIdAndUpdate(userId, userInfo, {
+    new: true,
+  });
 
   return data;
 }
