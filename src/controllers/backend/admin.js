@@ -46,7 +46,7 @@ module.exports = {
         isDeleted: false,
       });
 
-      const totalRegistration = await user.countDocuments();
+      const totalRegistration = await user.countDocuments({isDeleted:false});
       const totalCategory = await category.countDocuments();
       const totalSubCategory = await subCategory.countDocuments();
       const totalPost = await post.countDocuments();
@@ -173,10 +173,54 @@ module.exports = {
         updatedAt: Date.now(), // Use the current time for updatedAt
       };
 
-      // Optionally, handle password update
-      if (req.body.password) {
-        updates.password = req.body.password; // Update password if provided
-      }
+      /**
+       * Optionals
+       */
+      const page = parseInt(req.query.page) || 1;
+      const limit = 10;
+      const skip = (page - 1) * limit;
+
+      const listOfUser = await user.find({ isDeleted: false }).skip(skip).limit(limit);
+
+      const totalUsers = await user.countDocuments({ isDeleted: false });
+
+      const totalPages = Math.ceil(totalUsers / limit);
+
+      const totalUserAccounts = await user.countDocuments({
+        type: 1,
+        isDeleted: false,
+      });
+      const totalAdminAccounts = await user.countDocuments({
+        type: 2,
+        isDeleted: false,
+      });
+
+      // Compute user account statistics based on createdAt and updatedAt
+      const accountsCreatedLastMonth = await user.countDocuments({
+        createdAt: {
+          $gte: new Date(new Date().setMonth(new Date().getMonth() - 1)),
+        },
+      });
+
+      const accountsCreatedLastYear = await user.countDocuments({
+        createdAt: {
+          $gte: new Date(new Date().setFullYear(new Date().getFullYear() - 1)),
+        },
+      });
+
+      const accountsDeactivatedLastMonth = await user.countDocuments({
+        updatedAt: {
+          $gte: new Date(new Date().setMonth(new Date().getMonth() - 1)),
+        },
+        isDeleted: true,
+      });
+
+      const accountsDeactivatedLastYear = await user.countDocuments({
+        updatedAt: {
+          $gte: new Date(new Date().setFullYear(new Date().getFullYear() - 1)),
+        },
+        isDeleted: true,
+      });
 
       // Handle image upload if a file is sent
       if (req.file) {
@@ -196,9 +240,16 @@ module.exports = {
         title: "User",
         route: "user",
         user: updatedUser,
+        listOfUser,
+        currentPage: page,
+        totalPages,
+        totalUserAccounts: Math.round(totalUserAccounts),
+        totalAdminAccounts: Math.round(totalAdminAccounts),
+        accountsCreatedLastMonth: Math.round(accountsCreatedLastMonth),
+        accountsCreatedLastYear: Math.round(accountsCreatedLastYear),
+        accountsDeactivatedLastMonth: Math.round(accountsDeactivatedLastMonth),
+        accountsDeactivatedLastYear: Math.round(accountsDeactivatedLastYear),
       });
-
-      // res.redirect("./admin/home");
     } catch (error) {
       console.error(error);
       next(error);

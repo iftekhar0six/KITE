@@ -10,7 +10,7 @@ const adminController = require("../../controllers/backend/admin");
 
 router.get("/user", adminController.listUser);
 router.get("/update/:userid", adminController.userRoute);
-router.get("/update-user/:userid", adminController.updateUser);
+router.post("/update-user/:userid", adminController.updateUser);
 router.get("/home", adminController.userCount);
 router.get("/register", adminController.registerAdmin);
 
