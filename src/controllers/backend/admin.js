@@ -46,10 +46,10 @@ module.exports = {
         isDeleted: false,
       });
 
-      const totalRegistration = await user.countDocuments({isDeleted:false});
-      const totalCategory = await category.countDocuments();
-      const totalSubCategory = await subCategory.countDocuments();
-      const totalPost = await post.countDocuments();
+      const totalRegistration = await user.countDocuments({ isDeleted: false });
+      const totalCategory = await category.countDocuments({ isDeleted: false });
+      const totalSubCategory = await subCategory.countDocuments({ isDeleted: false });
+      const totalPost = await post.countDocuments({ isDeleted: false });
 
       return res.render("admin/home", {
         title: "Dashboard",
@@ -272,8 +272,6 @@ module.exports = {
       await user.findByIdAndUpdate(userId, newData, { new: true });
 
       return res.redirect("/admin/user");
-
-      // return res.render("admin/user");
     } catch (error) {
       console.error(error);
       next(error);

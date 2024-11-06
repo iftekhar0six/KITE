@@ -36,6 +36,10 @@ const postSchema = new mongoose.Schema(
       enum: [status.Active, status.Inactive],
       default: status.Active,
     },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
     updatedAt: {
       type: Number,
       default: Date.now,
