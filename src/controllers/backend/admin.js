@@ -64,7 +64,6 @@ module.exports = {
         accountsDeactivatedLastYear: Math.round(accountsDeactivatedLastYear),
       });
     } catch (error) {
-      console.error("Error in user count: ", error);
       next(error);
     }
   },
@@ -141,14 +140,11 @@ module.exports = {
   userRoute: async function (req, res, next) {
     try {
       const userId = req.params.userid; // Get user ID from the form input
-      console.log("User Route ");
       const userExist = await user.findById(userId);
 
       if (!userExist) {
-        console.log("User not found");
         return req.send("Not Found in database");
       }
-      console.log("User found", userExist);
 
       return res.render("admin/update", {
         title: "Update",
