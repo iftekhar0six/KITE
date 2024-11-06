@@ -13,8 +13,7 @@ module.exports = {
       const limit = Number(req.query.limit) || 5;
       const searchTerm = req.query.searchTerm || "";
 
-      const { listCategory, totalCategory, totalPage } =
-        await categoryRepo.list(searchTerm, page, limit);
+      const { listCategory, totalCategory, totalPage } = await categoryRepo.list(searchTerm, page, limit);
 
       const lastMonth = new Date();
       lastMonth.setMonth(lastMonth.getMonth() - 1);
@@ -46,18 +45,9 @@ module.exports = {
 
       const createdYearProgress = (createdLastMonth / createdLastYear) * 100;
 
-      const deactivatedMonthProgress =
-        (deactivatedLastMonth / deactivatedLastYear) * 100;
+      const deactivatedMonthProgress = (deactivatedLastMonth / deactivatedLastYear) * 100;
 
-      const deactivatedYearProgress =
-        (deactivatedLastMonth / deactivatedLastYear) * 100;
-
-      console.log(
-        createdMonthProgress,
-        deactivatedMonthProgress,
-        createdYearProgress,
-        deactivatedYearProgress
-      );
+      const deactivatedYearProgress = (deactivatedLastMonth / deactivatedLastYear) * 100;
 
       const response = {
         totalPage: totalPage,
@@ -86,6 +76,23 @@ module.exports = {
         route: "category",
       });
     } catch (error) {
+      next(error);
+    }
+  },
+
+  /**
+   * function for delete category
+   */
+  deleteCategory: async function (req, res, next) {
+    try {
+      const id = req.params.id;
+
+      const newData = { isDeleted: true };
+
+      await category.findByIdAndUpdate(id, newData, { new: true });
+      return res.redirect("/admin/category");
+    } catch (error) {
+      console.error(error);
       next(error);
     }
   },

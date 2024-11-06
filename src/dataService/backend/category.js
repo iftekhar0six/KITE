@@ -12,7 +12,7 @@ const category = require("../../models/category");
  */
 async function list(searchTerm, page, limit) {
   const skip = (page - 1) * limit;
-  let query = { status: 1 };
+  let query = { status: 1, isDeleted: false };
 
   if (searchTerm) {
     query = {

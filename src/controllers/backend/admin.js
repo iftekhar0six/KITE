@@ -271,7 +271,7 @@ module.exports = {
       };
       await user.findByIdAndUpdate(userId, newData, { new: true });
 
-      return res.json({ success: true });
+      return res.redirect("/admin/user");
 
       // return res.render("admin/user");
     } catch (error) {

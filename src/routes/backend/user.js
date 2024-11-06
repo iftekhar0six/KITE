@@ -22,5 +22,6 @@ router.get("/deleteUser/:userid", adminController.deleteUser);
 const categoryController = require("../../controllers/backend/category");
 
 router.get("/category", categoryController.listCategory);
+router.get("/deleteCategory/:id", categoryController.deleteCategory);
 
 module.exports = router;
