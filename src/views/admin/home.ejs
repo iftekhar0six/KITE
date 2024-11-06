@@ -1,0 +1,151 @@
+<%- include('../layout/header') %>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm">
+      <div class="small-box bg-gradient-success">
+        <div class="inner">
+          <h3><%= totalRegistration %></h3>
+          <p>User Registrations</p>
+        </div>
+        <div class="icon">
+          <i class="fas fa-user-plus"></i>
+        </div>
+        <a href="./pages/listuser.htm" class="small-box-footer"> More info <i class="fas fa-arrow-circle-right"></i> </a>
+      </div>
+    </div>
+    <div class="col-sm">
+      <div class="small-box bg-gradient-danger">
+        <div class="inner">
+          <h3><%= totalCategory %></h3>
+          <p>Total Category</p>
+        </div>
+        <div class="icon">
+          <i class="fas fa-th-large"></i>
+        </div>
+        <a href="./pages/listcategory.htm" class="small-box-footer"> More info <i class="fas fa-arrow-circle-right"></i> </a>
+      </div>
+    </div>
+    <div class="col-sm">
+      <div class="small-box bg-gradient-warning">
+        <div class="inner">
+          <h3><%= totalSubCategory %></h3>
+          <p>Total Sub-Category</p>
+        </div>
+        <div class="icon">
+          <i class="fas fa-tags"></i>
+        </div>
+        <a href="./pages/listsubcategory.htm" class="small-box-footer"> More info <i class="fas fa-arrow-circle-right"></i> </a>
+      </div>
+    </div>
+    <div class="col-sm">
+      <div class="small-box bg-gradient-info">
+        <div class="inner">
+          <h3><%= totalPost %></h3>
+          <p>Total Post</p>
+        </div>
+        <div class="icon">
+          <i class="fas fa-pencil-alt"></i>
+        </div>
+        <a href="./pages/listpost.htm" class="small-box-footer"> More info <i class="fas fa-arrow-circle-right"></i> </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">KITE Statistics</h3>
+      </div>
+
+      <div class="card-body">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th style="width: 10px">#</th>
+              <th>User Type</th>
+              <th>Count</th>
+              <th>Progress</th>
+              <th style="width: 40px">Visual</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1.</td>
+              <td>Account created in last year</td>
+              <td><%= accountsCreatedLastYear %></td>
+              <td>
+                <div class="progress progress-xs">
+                  <div
+                  class="progress-bar bg-primary"
+                  style="width: <%= totalUserAccounts > 0 ? (accountsCreatedLastYear / totalUserAccounts) * 100 : 0 %>%"
+                ></div>               
+               </div>
+              </td>
+              <td>
+                <span class="badge bg-success"
+                  ><%= totalUserAccounts > 0 ? Math.floor((accountsCreatedLastYear / totalUserAccounts) * 100) : 0 %>%</span
+                >
+              </td>
+            </tr>
+
+            <tr>
+              <td>2.</td>
+              <td>Account deactivated last year</td>
+              <td><%= accountsDeactivatedLastYear %></td>
+              <td>
+                <div class="progress progress-xs progress-striped active">
+                  <div
+                  class="progress-bar bg-danger"
+                  style="width: <%= totalUserAccounts > 0 ? (accountsDeactivatedLastYear / totalUserAccounts) * 100 : 0 %>%"
+                ></div>                </div>
+              </td>
+              <td>
+                <span class="badge bg-warning"
+                  ><%= totalUserAccounts > 0 ? Math.floor((accountsDeactivatedLastYear / totalUserAccounts) * 100) : 0 %>%</span
+                >
+              </td>            </tr>
+            <tr>
+              <td>3.</td>
+              <td>User accounts in total</td>
+              <td><%= totalUserAccounts %></td>
+              <td>
+                <div class="progress progress-xs">
+                  <div
+                  class="progress-bar bg-primary"
+                  style="width: <%= totalUserAccounts + totalAdminAccounts > 0 ? (totalUserAccounts / (totalUserAccounts + totalAdminAccounts)) * 100 : 0 %>%"
+                ></div>                </div>
+              </td>
+              <td>
+                <span class="badge bg-secondary"
+                  ><%= totalUserAccounts + totalAdminAccounts > 0 ? Math.floor((totalUserAccounts / (totalUserAccounts + totalAdminAccounts)) * 100) :
+                  0 %>%</span
+                >
+              </td>            </tr>
+            <tr>
+              <td>4.</td>
+              <td>Admin accounts in total</td>
+              <td><%= totalAdminAccounts %></td>
+              <td>
+                <div class="progress progress-xs">
+                  <div
+                  class="progress-bar bg-warning"
+                  style="width: <%= totalUserAccounts + totalAdminAccounts > 0 ? (totalAdminAccounts / (totalUserAccounts + totalAdminAccounts)) * 100 : 0 %>%"
+                ></div>                </div>
+              </td>
+              <td>
+                <span class="badge bg-success"
+                  ><%= totalUserAccounts + totalAdminAccounts > 0 ? Math.floor((totalAdminAccounts / (totalUserAccounts + totalAdminAccounts)) * 100)
+                  : 0 %>%</span
+                >
+              </td>            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../layout/footer') %>

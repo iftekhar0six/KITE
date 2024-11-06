@@ -1,0 +1,135 @@
+<%- include('../layout/header') %>
+
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">Account Credentials</h3>
+          </div>
+  
+          <form action="/admin/update-user" method="GET" enctype="multipart/form-data">
+            <div class="card-body">
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label for="fname">First Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="fname"
+                    name="fname"
+                    value="<%= user != null ? user['fName'] : ''%>"
+                    placeholder="Enter first name"
+                  />
+                </div>
+          
+                <div class="form-group col-md-6">
+                  <label for="lname">Last Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="lname"
+                    name="lname"
+                    value="<%= user != null ? user['lName'] : ''%>"
+                    placeholder="Enter last name"
+                  />
+                </div>
+              </div>
+          
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label for="email">Email Address</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    name="email"
+                    value="<%= user != null ? user['email'] : ''%>"
+                    placeholder="Enter email"
+                  />
+                </div>
+          
+                <div class="form-group col-md-6">
+                  <label for="mobile">Mobile No.</label>
+                  <input
+                    type="tel"
+                    class="form-control"
+                    id="mobile"
+                    name="mobile"
+                    value="<%= user != null ? user['mobile'] : ''%>"
+                    placeholder="Enter mobile number"
+                  />
+                </div>
+          
+               
+              </div>
+          
+              <div class="row">
+
+                <div class="form-group col-md-6">
+                  <label for="password">Password</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="password"
+                    name="password"
+                    value="<%= user != null ? user['password'] : ''%>"
+                    placeholder="Enter password"
+                    disabled
+                  />
+                </div>
+
+
+                <div class="form-group col-md-6">
+                  <label>Gender</label>
+                  <select class="custom-select" name="gender" >
+                    <option value="male" <%= user != null && user['status'] == "male" ? 'selected' : ''%> >Male</option>
+                    <option value="female" <%= user != null && user['status'] == "female" ? 'selected' : ''%> >Female</option>
+                  </select>
+                </div>
+          
+                
+               </div>
+                
+          
+              <div class="form-group">
+                <label for="file">Profile Pic</label>
+                <div class="input-group">
+                  <div class="custom-file">
+                    <input
+                      type="file"
+                      class="custom-file-input"
+                      id="file"
+                      name="profilePic"
+                      value="<%= user != null ? user['file'] : ''%>"
+                      accept="image/*"
+                    />
+                    <label class="custom-file-label" for="file">Choose file</label>
+                  </div>
+                </div>
+              </div>
+          
+              <div class="custom-control custom-checkbox">
+                <input
+                  class="custom-control-input"
+                  type="checkbox"
+                  id="confirmupdate"
+                  name="confirmupdate"
+                />
+                <label for="confirmupdate" class="custom-control-label">Confirm to update user</label>
+              </div>
+          
+            <div class="card-footer">
+              <button type="submit" class="btn btn-primary">Update</button>
+            </div>
+          </form>
+          
+          
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<%- include('../layout/footer') %>
