@@ -1,7 +1,9 @@
 "use strict";
 
 const category = require("../../models/category");
+const user = require("../../models/user");
 const categoryRepo = require("../../dataService/backend/category");
+const { status } = require("../../helpers/enum");
 
 module.exports = {
   /**
@@ -13,7 +15,7 @@ module.exports = {
       const limit = Number(req.query.limit) || 5;
       const searchTerm = req.query.searchTerm || "";
 
-      const { listCategory, totalCategory, totalPage } = await categoryRepo.list(searchTerm, page, limit);
+      const { listCategory, totalCategory, totalCategoryCount, totalPage } = await categoryRepo.list(searchTerm, page, limit);
 
       const lastMonth = new Date();
       lastMonth.setMonth(lastMonth.getMonth() - 1);
@@ -41,13 +43,13 @@ module.exports = {
         status: 0,
       });
 
-      const createdMonthProgress = (createdLastMonth / createdLastYear) * 100;
+      const createdMonthProgress = (totalCategory / createdLastMonth) * 100;
 
-      const createdYearProgress = (createdLastMonth / createdLastYear) * 100;
+      const createdYearProgress = (totalCategory / createdLastYear) * 100;
 
-      const deactivatedMonthProgress = (deactivatedLastMonth / deactivatedLastYear) * 100;
+      const deactivatedMonthProgress = (deactivatedLastMonth / totalCategoryCount) * 100;
 
-      const deactivatedYearProgress = (deactivatedLastMonth / deactivatedLastYear) * 100;
+      const deactivatedYearProgress = (deactivatedLastMonth / totalCategoryCount) * 100;
 
       const response = {
         totalPage: totalPage,
@@ -87,12 +89,53 @@ module.exports = {
     try {
       const id = req.params.id;
 
-      const newData = { isDeleted: true };
+      const newData = { status: 0, isDeleted: true };
 
       await category.findByIdAndUpdate(id, newData, { new: true });
       return res.redirect("/admin/category");
     } catch (error) {
       console.error(error);
+      next(error);
+    }
+  },
+
+  userRoute: async function (req, res, next) {
+    try {
+      const userId = req.params.userid; // Get user ID from the form input
+      const userExist = await user.findById(userId);
+
+      if (!userExist) {
+        return req.send("Not Found in database");
+      }
+
+      return res.render("admin/update", {
+        title: "Update",
+        route: "update",
+        user: userExist,
+      });
+      // return res.render("admin/update", { title: "Update user", user: userExist });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  /**
+   * function to add new category
+   */
+  createCategory: async function (req, res, next) {
+    try {
+      const detail = {
+        name: "The name is confidential",
+        description: "This is confidential too",
+        userId: "67122ae4ef7e0e5547131a17",
+        // userId: req.user.id,
+      };
+      console.log(detail)
+
+      const createCategory = await categoryRepo.create(detail);
+
+      return res.render("category/add-category", { title: "Category", route: category, createCategory });
+    } catch (error) {
       next(error);
     }
   },

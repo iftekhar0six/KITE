@@ -12,7 +12,7 @@ const category = require("../../models/category");
  */
 async function list(searchTerm, page, limit) {
   const skip = (page - 1) * limit;
-  let query = { status: 1 };
+  let query = { status: 1, isDeleted: false };
 
   if (searchTerm) {
     query = {
@@ -52,9 +52,21 @@ async function list(searchTerm, page, limit) {
   ]);
 
   const totalCategory = await category.find(query).countDocuments();
+  const totalCategoryCount = await category.find().countDocuments();
   const totalPage = Math.ceil(totalCategory / limit);
 
-  return { listCategory, totalCategory, totalPage };
+  return { listCategory, totalCategory, totalCategoryCount, totalPage };
 }
 
-module.exports = { list };
+/**
+ * function to create ctaegory
+ *
+ * @param {Object} data
+ * @returns saved data
+ */
+async function create(data) {
+  const newData = new category(data);
+  const saveData = await newData.save();
+  return saveData;
+}
+module.exports = { list, create };
