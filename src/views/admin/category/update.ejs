@@ -11,26 +11,66 @@
           <form action="/admin/category" method="GET" enctype="multipart/form-data">
             <div class="card-body">
               <div class="row">
-                
                 <div class="form-group col-md-4">
-                  <label for="name">Category Name</label>
+                  <label for="name">Category Id</label>
                   <input
                     type="text"
                     class="form-control"
                     id="name"
                     name="name"
                     placeholder="Category name"
+                    value="<%= category != null ? category['name'] : ''%>"
                     disabled
                   />
                 </div>
                 <div class="form-group col-md-4">
-                  <label for="discription">Discription</label>
+                  <label for="description">Creator name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    name="name"
+                    placeholder="Category name"
+                    value="<%= category.userDetail ? `${category.userDetail.firstName} ${category.userDetail.lastName}` : "N/A" %>"
+                    disabled
+                  />
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="description">Creator name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    name="name"
+                    placeholder="Category name"
+                    value="<%= category != null ? category['name'] : ''%>"
+                    disabled
+                  />
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="form-group col-md-4">
+                  <label for="name">Creator mail address</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    name="name"
+                    placeholder="Category name"
+                    value="<%= category != null ? category['name'] : ''%>"
+                    disabled
+                  />
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="description">Description</label>
                   <textarea
                     type="text"
                     class="form-control"
-                    id="discription"
-                    name="discription"
-                    placeholder="discription"
+                    id="description"
+                    name="description"
+                    placeholder="description"
+                    value="<%= category != null ? category['description'] : ''%>"
                   ></textarea>
                 </div>
               </div>

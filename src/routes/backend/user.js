@@ -8,6 +8,7 @@ const router = express.Router();
  */
 const adminController = require("../../controllers/backend/admin");
 
+router.get("/profile", adminController.userProfile);
 router.get("/user", adminController.listUser);
 router.get("/update/:userid", adminController.userRoute);
 router.post("/update-user/:userid", adminController.updateUser);

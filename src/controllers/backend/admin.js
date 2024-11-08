@@ -19,6 +19,16 @@ module.exports = {
       next(error);
     }
   },
+  /**
+   * function for the admin profile
+   */
+  userProfile: async function (req, res, next) {
+    try {
+      return res.render("admin/profile", { title: "Profile", route: user });
+    } catch (error) {
+      next(error);
+    }
+  },
 
   /**
    * User list with pagination
