@@ -139,7 +139,7 @@ module.exports = {
 
   userRoute: async function (req, res, next) {
     try {
-      const userId = req.params.userid; // Get user ID from the form input
+      const userId = req.params.userid;
       const userExist = await user.findById(userId);
 
       if (!userExist) {
@@ -151,7 +151,6 @@ module.exports = {
         route: "update",
         user: userExist,
       });
-      // return res.render("admin/update", { title: "Update user", user: userExist });
     } catch (error) {
       next(error);
     }
@@ -162,7 +161,7 @@ module.exports = {
    */
   updateUser: async function (req, res, next) {
     try {
-      const userId = req.params.userid; // Get user ID from the form input
+      const userId = req.params.userid;
 
       const updates = {
         fName: req.body.fName,
@@ -170,7 +169,7 @@ module.exports = {
         email: req.body.email,
         mobile: req.body.mobile,
         gender: req.body.gender,
-        updatedAt: Date.now(), // Use the current time for updatedAt
+        updatedAt: Date.now(),
       };
 
       /**

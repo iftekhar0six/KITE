@@ -1,0 +1,70 @@
+<%- include('../../layout/header') %>
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card card-success">
+          <div class="card-header">
+            <h3 class="card-title">Account credentials</h3>
+          </div>
+
+          <form action="/admin/category" method="GET" enctype="multipart/form-data">
+            <div class="card-body">
+              <div class="row">
+                
+                <div class="form-group col-md-4">
+                  <label for="name">Category Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    name="name"
+                    placeholder="Category name"
+                    disabled
+                  />
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="discription">Discription</label>
+                  <textarea
+                    type="text"
+                    class="form-control"
+                    id="discription"
+                    name="discription"
+                    placeholder="discription"
+                  ></textarea>
+                </div>
+              </div>
+             
+              <div class="custom-control custom-checkbox">
+                <input
+                  class="custom-control-input"
+                  type="checkbox"
+                  id="confirmupdate" 
+                  name="confirmupdate"
+                  onclick="toggleSubmitButton()"
+                />
+                <label for="confirmupdate" class="custom-control-label"
+                  >Confirm to update user</label
+                >
+              </div>
+            </div>
+
+            <div class="card-footer">
+              <button type="submit" class="btn btn-success" id="submitButton" disabled>
+                Update
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  function toggleSubmitButton() {
+    const checkbox = document.getElementById("confirmupdate");
+    const submitButton = document.getElementById("submitButton");
+    submitButton.disabled = !checkbox.checked;
+  }
+</script>
+<%- include('../../layout/footer') %>

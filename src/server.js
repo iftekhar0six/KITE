@@ -31,8 +31,7 @@ app.use(express.static("public"));
 /**
  * Backend router
  */
-app.use("/admin", require("./routes/backend/user"));
-app.use("/category", require("./routes/backend/category"));
+app.use("/admin", require("./routes/backendRoute"));
 
 /**
  * Swagger UI setup

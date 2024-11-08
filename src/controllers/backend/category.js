@@ -12,7 +12,7 @@ module.exports = {
   listCategory: async function (req, res, next) {
     try {
       const page = req.query.page || 1;
-      const limit = Number(req.query.limit) || 5;
+      const limit = Number(req.query.limit) || 9;
       const searchTerm = req.query.searchTerm || "";
 
       const { listCategory, totalCategory, totalCategoryCount, totalPage } = await categoryRepo.list(searchTerm, page, limit);
@@ -72,7 +72,7 @@ module.exports = {
       };
 
       // Render the EJS template and pass the response data
-      return res.render("admin/category", {
+      return res.render("admin/category/detail", {
         response,
         title: "Category",
         route: "category",
@@ -99,42 +99,49 @@ module.exports = {
     }
   },
 
-  userRoute: async function (req, res, next) {
+  /**
+   * function to add new category
+   */
+  createCategory: async function (req, res, next) {
     try {
-      const userId = req.params.userid; // Get user ID from the form input
-      const userExist = await user.findById(userId);
+      // const detail = {
+      //   name: "Todays new",
+      //   description: "This one is also new",
+      //   userId: "67122ae4ef7e0e5547131a17",
+      //   // userId: req.user.id,
+      // };
 
-      if (!userExist) {
-        return req.send("Not Found in database");
-      }
+      // const createCategory = await categoryRepo.create(detail);
 
-      return res.render("admin/update", {
-        title: "Update",
-        route: "update",
-        user: userExist,
-      });
-      // return res.render("admin/update", { title: "Update user", user: userExist });
+      return res.render("admin/category/add", { title: "Category", route: category });
     } catch (error) {
       next(error);
     }
   },
 
   /**
-   * function to add new category
+   * find category by id using mongo id
    */
-  createCategory: async function (req, res, next) {
+  findCategory: async function (req, res, next) {
     try {
-      const detail = {
-        name: "The name is confidential",
-        description: "This is confidential too",
-        userId: "67122ae4ef7e0e5547131a17",
-        // userId: req.user.id,
-      };
-      console.log(detail)
+      const id = req.params.id;
+      const categoryExist = await category.findById(id);
 
-      const createCategory = await categoryRepo.create(detail);
+      if (!categoryExist) {
+        return res.send("Category not found");
+      }
+      return res.render("admin/category/update", { title: "Update Category", route: category, category: categoryExist });
+    } catch (error) {
+      next(error);
+    }
+  },
 
-      return res.render("category/add-category", { title: "Category", route: category, createCategory });
+  /**
+   * function to update category
+   */
+  updateCategory: async function (req, res, next) {
+    try {
+      return res.redirect("admin/category", { title: "Update Category", route: category });
     } catch (error) {
       next(error);
     }
