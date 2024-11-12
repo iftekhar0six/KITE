@@ -144,9 +144,10 @@ module.exports = {
       const page = req.query.page || 1;
       const limit = Number(req.query.limit) || 9;
       const searchTerm = req.query.searchTerm || "";
+
       const { listCategory } = await categoryRepo.list(searchTerm, page, limit);
 
-      return res.redirect("admin/category", { title: "Update Category", route: category,listCategory:listCategory });
+      return res.redirect("admin/category", { title: "Update Category", route: category, listCategory: listCategory });
     } catch (error) {
       next(error);
     }

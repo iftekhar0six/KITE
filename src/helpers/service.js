@@ -21,9 +21,7 @@ function hasValidatorErrors(req, res) {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const err = errors.array()[0];
-    res
-      .status(400)
-      .json(prepareResponse(ErrorCode.REQUIRED_CODE, err.msg, null));
+    res.status(400).json(prepareResponse(ErrorCode.REQUIRED_CODE, err.msg, null));
     return true;
   } else {
     return false;
@@ -134,12 +132,27 @@ const imageUpload = async (image, folderName) => {
  */
 async function deleteFile(filePath) {
   try {
-    const fullPath = path.isAbsolute(filePath)
-      ? filePath
-      : path.join(__dirname, "../profile-pic", filePath);
+    const fullPath = path.isAbsolute(filePath) ? filePath : path.join(__dirname, "../profile-pic", filePath);
     return fs.unlinkSync(fullPath);
   } catch (err) {
     console.error("Error deleting file:", err);
+  }
+}
+
+/**
+ * function for toast handler
+ *
+ * @returns toaster
+ */
+function toastrHandler(req) {
+  if (req.cookies["msg"]) {
+    if (req.cookies["msg"].error) {
+      req.toastr.error(req.cookies["msg"].error);
+    } else if (req.cookies["msg"].success) {
+      req.toastr.success(req.cookies["msg"].success);
+    }
+  } else {
+    return false;
   }
 }
 
@@ -151,4 +164,5 @@ module.exports = {
   generateToken: generateToken,
   imageUpload: imageUpload,
   deleteFile: deleteFile,
+  toastrHandler: toastrHandler,
 };

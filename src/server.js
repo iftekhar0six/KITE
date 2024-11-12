@@ -11,6 +11,8 @@ require("dotenv").config();
 const PORT = process.env.PORT;
 const HOST = process.env.HOST;
 const app = express();
+
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(fileUpload());
 app.use(methodOverride("_method"));
@@ -32,6 +34,7 @@ app.use(express.static("public"));
  * Backend router
  */
 app.use("/admin", require("./routes/backendRoute"));
+app.use("/auth", require("./routes/backend/auth"));
 
 /**
  * Swagger UI setup
