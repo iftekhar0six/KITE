@@ -25,7 +25,7 @@ module.exports = {
       await newAdmin.save();
 
       passport.authenticate("local")(req, res, () => {
-        res.redirect("/auth/login");
+        res.redirect("/auth");
       });
     } catch (error) {
       next(error);
@@ -62,7 +62,7 @@ module.exports = {
               res.redirect("/admin/home");
             } else {
               res.cookie("msg", { error: messageToStr(info.message) }, { httpOnly: true });
-              res.redirect("/admin");
+              res.redirect("/auth");
             }
           })(req, res, next);
         }

@@ -4,18 +4,44 @@ const express = require("express");
 const fileUpload = require("express-fileupload");
 const swaggerUi = require("swagger-ui-express");
 const methodOverride = require("method-override");
+const toastr = require("express-toastr");
+const flash = require("connect-flash");
+const session = require("express-session");
+const passport = require("passport");
+var cookieParser = require("cookie-parser");
 const { swaggerSpec } = require("./helpers/swaggerConnection");
+const AdminModel = require("./models/admin");
 const http = require("http");
 require("dotenv").config();
 
 const PORT = process.env.PORT;
 const HOST = process.env.HOST;
+
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(fileUpload());
 app.use(methodOverride("_method"));
+app.use(flash());
+app.use(toastr());
+app.use(cookieParser());
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 48 * 60 * 60 * 1000 },
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(AdminModel.createStrategy());
+passport.serializeUser(AdminModel.serializeUser());
+passport.deserializeUser(AdminModel.deserializeUser());
 
 /**
  * database connection
