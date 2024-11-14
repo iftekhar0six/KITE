@@ -17,13 +17,19 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column nav-compact nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
           <% var myObject = [ 
-                { heading: "MAIN NAVIGATION" }, 
-                { href: "/admin/home" , route: "home" , icon: "fas fa-tachometer-alt" ,title: "Dashboard" }, 
-                {heading: 'USER MANAGEMENTS' }, 
-                { href: "/admin/user" , route: "user" , icon: "fa fa-user" , title: "Users" },
-                {heading: 'CATEGORY' }, 
-                { href: "/admin/category" , route: "category" , icon: "fa fa-box" , title: "Category" },
-                ]; %>
+          { heading: "MAIN NAVIGATION" }, 
+          { href: "/admin/home", route: "home", icon: "fas fa-tachometer-alt", title: "Dashboard" }, 
+          { heading: "USER MANAGEMENTS" }, 
+          { href: "/admin/user", route: "user", icon: "fas fa-users", title: "Users" },
+          { heading: "CATEGORY" }, 
+          { href: "/admin/category", route: "category", icon: "fas fa-th-list", title: "Category" },
+          { heading: "SUB CATEGORY" }, 
+          { href: "/admin/sub-category", route: "Sub-Category", icon: "fas fa-folder-plus", title: "Sub-Category" },
+          { heading: "POST" }, 
+          { href: "/admin/post", route: "post", icon: "fas fa-edit", title: "Post" },
+         
+      ];
+       %>
   
           <% myObject.forEach((item)=> { %>
           <% if (item.heading) { %>

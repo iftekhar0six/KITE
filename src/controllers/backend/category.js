@@ -11,8 +11,8 @@ module.exports = {
    */
   listCategory: async function (req, res, next) {
     try {
-      const page = req.query.page || 1;
-      const limit = Number(req.query.limit) || 9;
+      const page = parseInt(req.query.page) || 1;
+      const limit = parseInt(req.query.limit) || 9;
       const searchTerm = req.query.searchTerm || "";
 
       const { listCategory, totalCategory, totalCategoryCount, totalPage } = await categoryRepo.list(searchTerm, page, limit);

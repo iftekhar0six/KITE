@@ -72,4 +72,15 @@ module.exports = {
       next(error);
     }
   },
+  logout: async function (req, res, next) {
+    try {
+      req.logOut((err) => {
+        console.log(err);
+      });
+      res.cookie("msg", { success: "Logged out!" }, { httpOnly: true });
+      res.redirect("/auth");
+    } catch (error) {
+      next(error);
+    }
+  },
 };

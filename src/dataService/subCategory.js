@@ -69,6 +69,8 @@ async function list(searchTerm, page, limit) {
         userDetail: {
           id: "$user._id",
           email: "$user.email",
+          fName: "$user.fName",
+          lName: "$user.lName",
         },
         categoryDetail: {
           id: "$category._id",
@@ -78,6 +80,7 @@ async function list(searchTerm, page, limit) {
     },
     {
       $project: {
+        name: 1,
         userDetail: 1,
         categoryDetail: 1,
       },
@@ -100,13 +103,9 @@ async function list(searchTerm, page, limit) {
  * @returns {object} the updated subCategory
  */
 async function update(subCategoryId, subCategoryInfo) {
-  const data = await subCategory.findByIdAndUpdate(
-    subCategoryId,
-    subCategoryInfo,
-    {
-      new: true,
-    }
-  );
+  const data = await subCategory.findByIdAndUpdate(subCategoryId, subCategoryInfo, {
+    new: true,
+  });
   return data;
 }
 
@@ -120,13 +119,9 @@ async function deleteSubCategory(subCategoryId) {
   const subCategoryInfo = {
     status: status.Inactive,
   };
-  const data = await subCategory.findByIdAndUpdate(
-    subCategoryId,
-    subCategoryInfo,
-    {
-      new: true,
-    }
-  );
+  const data = await subCategory.findByIdAndUpdate(subCategoryId, subCategoryInfo, {
+    new: true,
+  });
   return data;
 }
 

@@ -70,6 +70,8 @@ async function list(page, limit) {
         userDetail: {
           id: "$user._id",
           email: "$user.email",
+          fName: "$user.fName",
+          lName: "$user.lName",
         },
         categoryDetail: {
           id: "$category._id",

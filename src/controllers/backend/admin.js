@@ -86,46 +86,34 @@ module.exports = {
       const page = parseInt(req.query.page) || 1;
       const limit = 10;
       const skip = (page - 1) * limit;
+      const searchEmail = req.query.email || "";
 
-      const listOfUser = await user.find({ isDeleted: false }).skip(skip).limit(limit);
+      const query = { isDeleted: false };
 
-      const totalUsers = await user.countDocuments({ isDeleted: false });
+      // If email search parameter is provided, add it to the query
+      if (searchEmail) {
+        query.email = { $regex: searchEmail, $options: "i" };
+      }
 
+      const listOfUser = await user.find(query).skip(skip).limit(limit);
+      const totalUsers = await user.countDocuments(query);
       const totalPages = Math.ceil(totalUsers / limit);
 
-      const totalUserAccounts = await user.countDocuments({
-        type: 1,
-        isDeleted: false,
-      });
-      const totalAdminAccounts = await user.countDocuments({
-        type: 2,
-        isDeleted: false,
-      });
-
-      // Compute user account statistics based on createdAt and updatedAt
+      // Additional account statistics as before
+      const totalUserAccounts = await user.countDocuments({ type: 1, isDeleted: false });
+      const totalAdminAccounts = await user.countDocuments({ type: 2, isDeleted: false });
       const accountsCreatedLastMonth = await user.countDocuments({
-        createdAt: {
-          $gte: new Date(new Date().setMonth(new Date().getMonth() - 1)),
-        },
+        createdAt: { $gte: new Date(new Date().setMonth(new Date().getMonth() - 1)) },
       });
-
       const accountsCreatedLastYear = await user.countDocuments({
-        createdAt: {
-          $gte: new Date(new Date().setFullYear(new Date().getFullYear() - 1)),
-        },
+        createdAt: { $gte: new Date(new Date().setFullYear(new Date().getFullYear() - 1)) },
       });
-
       const accountsDeactivatedLastMonth = await user.countDocuments({
-        updatedAt: {
-          $gte: new Date(new Date().setMonth(new Date().getMonth() - 1)),
-        },
+        updatedAt: { $gte: new Date(new Date().setMonth(new Date().getMonth() - 1)) },
         isDeleted: true,
       });
-
       const accountsDeactivatedLastYear = await user.countDocuments({
-        updatedAt: {
-          $gte: new Date(new Date().setFullYear(new Date().getFullYear() - 1)),
-        },
+        updatedAt: { $gte: new Date(new Date().setFullYear(new Date().getFullYear() - 1)) },
         isDeleted: true,
       });
 
@@ -141,6 +129,7 @@ module.exports = {
         accountsCreatedLastYear: Math.round(accountsCreatedLastYear),
         accountsDeactivatedLastMonth: Math.round(accountsDeactivatedLastMonth),
         accountsDeactivatedLastYear: Math.round(accountsDeactivatedLastYear),
+        searchEmail,
       });
     } catch (error) {
       next(error);

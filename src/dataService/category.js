@@ -104,6 +104,7 @@ async function update(categoryId, categoryInfo) {
 async function deleteCategory(categoryId) {
   const categoryInfo = {
     status: status.Inactive,
+    isDeleted: true,
   };
   const data = await category.findByIdAndUpdate(categoryId, categoryInfo, {
     new: true,

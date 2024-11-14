@@ -9,4 +9,7 @@ router.post("/register-submit", controller.signup);
 router.get("/", controller.loginForm);
 router.post("/login-submit", controller.login);
 
+router.get("/logout", controller.logout);
+
+
 module.exports = router;

@@ -1,21 +1,5 @@
 <%- include('../../layout/header') %>
 
-<section class="content-header">
-  <div class="container-fluid">
-    <div class="row mb-2">
-      <div class="col-sm-6">
-        <h1>Category List</h1>
-      </div>
-      <div class="col-sm-6">
-        <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
-          <li class="breadcrumb-item active">Simple Tables</li>
-        </ol>
-      </div>
-    </div>
-  </div>
-</section>
-
 <section class="content">
   <div class="container-fluid">
     <div class="row">
@@ -24,17 +8,16 @@
           <div class="card-header d-flex justify-content-between align-items-center">
             <h3 class="card-title">Category Data</h3>
             <div class="card-tools d-flex align-items-center">
-              <a href="/admin/add-category" class="btn btn-sm btn-success me-3"> Add New Category </a>
-              <div class="input-group input-group-sm" style="width: 200px">
-                <input type="text" name="table_search" class="form-control" placeholder="Search" />
-                <div class="input-group-append">
-                  <button type="submit" class="btn btn-default">
-                    <i class="fas fa-search"></i>
-                  </button>
-                </div>
-              </div>
+              <a href="/admin/add-category" class="btn btn-sm btn-success me-3">Add New Category</a>
+              <form action="/admin/category" method="GET" class="d-flex align-items-center" style="width: 200px">
+                <input type="text" name="searchTerm" class="form-control" placeholder="Search by name" />
+                <button type="submit" class="btn btn-default">
+                  <i class="fas fa-search"></i>
+                </button>
+              </form>
             </div>
           </div>
+          
 
           <div class="card-body table-responsive p-0">
             <table class="table table-hover text-nowrap">
@@ -43,8 +26,7 @@
                   <th>Category Name</th>
                   <th>Creator Name</th>
                   <th>Creator Email</th>
-                  <th>Creator Id</th>
-                  <th>Category Id</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
 
@@ -52,12 +34,10 @@
                 <% if (response.listCategory && response.listCategory.length > 0) { %> <% response.listCategory.forEach(category => { %>
                 <tr>
                   <td><%= category.name %></td>
-                  <td><%= category.userDetail ? `${category.userDetail.firstName} ${category.userDetail.lastName}` : "N/A" %></td>
+                  <td><%= category.userDetail ? `${category.userDetail.fName} ${category.userDetail.lName}` : "N/A" %></td>
                   <td>
                     <span class="tag tag-success"><%= category.userDetail ? category.userDetail.email : "N/A" %></span>
                   </td>
-                  <td><%= category.userDetail ? category.userDetail.id : "N/A" %></td>
-                  <td><%= category._id %></td>
                   <td>
                     <a href="/admin/update-category/<%= category._id %>" class="btn btn-primary btn-sm">Edit</a>
 

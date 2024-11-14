@@ -1,327 +1,304 @@
 <%- include('../layout/header') %>
 
-<div class="card-body table-responsive p-0">
-  <table class="table table-hover text-nowrap">
-    <thead>
-      <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Email</th>
-        <th>Mobile No.</th>
-        <th>MongoId</th>
-        <th>Actions</th>
-        <!-- Added Actions column -->
-      </tr>
-    </thead>
-    <tbody>
-      <% if (listOfUser.length > 0) { %> <% listOfUser.forEach(user => { %>
-      <tr>
-        <td><%= user.fName %></td>
-        <td><%= user.lName %></td>
-        <td><span class="tag tag-success"><%= user.email %></span></td>
-        <td><%= user.mobile %></td>
-        <td><%= user._id %></td>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">User Data</h3>
+        <div class="card-tools">
+          <form action="/admin/user" method="GET" class="input-group input-group-sm" style="width: 150px;">
+            <input type="text" name="email" class="form-control float-right" placeholder="Search by email" />
+            <div class="input-group-append">
+              <button type="submit" class="btn btn-default">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
 
-        <td>
-          <!-- Edit button -->
-          <a href="/admin/update/<%= user._id %>" class="btn btn-primary btn-sm"
-            >Edit</a
-          >
+  <div class="card-body table-responsive p-0">
+    <table class="table table-hover text-nowrap">
+      <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+          <th>Mobile No.</th>
+          <th>Actions</th>
+          <!-- Added Actions column -->
+        </tr>
+      </thead>
+      <tbody>
+        <% if (listOfUser.length > 0) { %> <% listOfUser.forEach(user => { %>
+        <tr>
+          <td><%= user.fName %></td>
+          <td><%= user.lName %></td>
+          <td><span class="tag tag-success"><%= user.email %></span></td>
+          <td><%= user.mobile %></td>
 
-          <!-- Delete button to open modal -->
-          <button
-            class="btn btn-danger btn-sm"
-            data-toggle="modal"
-            data-target="#deleteModal"
-            data-userid="<%= user._id %>"
-          >
-            Delete
+          <td>
+            <!-- Edit button -->
+            <a href="/admin/update/<%= user._id %>" class="btn btn-primary btn-sm">Edit</a>
+
+            <!-- Delete button to open modal -->
+            <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" data-userid="<%= user._id %>">Delete</button>
+          </td>
+        </tr>
+        <% }) %> <% } else { %>
+        <tr>
+          <td colspan="6">No users found</td>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <nav aria-label="Page navigation">
+      <ul class="pagination justify-content-center">
+        <!-- Show previous page link -->
+        <% if (currentPage > 1) { %>
+        <li class="page-item">
+          <a class="page-link" href="?page=<%= currentPage - 1 %>">Previous</a>
+        </li>
+        <% } %>
+
+        <!-- Page numbers -->
+        <% for (let i = 1; i <= totalPages; i++) { %>
+        <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+          <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+        </li>
+        <% } %>
+
+        <!-- Show next page link -->
+        <% if (currentPage < totalPages) { %>
+        <li class="page-item">
+          <a class="page-link" href="?page=<%= currentPage + 1 %>">Next</a>
+        </li>
+        <% } %>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Delete Confirmation Modal (Place this outside the loop and after the table) -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
           </button>
-        </td>
-      </tr>
-      <% }) %> <% } else { %>
-      <tr>
-        <td colspan="6">No users found</td>
-      </tr>
-      <% } %>
-    </tbody>
-  </table>
+        </div>
+        <div class="modal-body">Are you sure you want to delete this user?</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
 
-  <!-- Pagination -->
-  <nav aria-label="Page navigation">
-    <ul class="pagination justify-content-center">
-      <!-- Show previous page link -->
-      <% if (currentPage > 1) { %>
-      <li class="page-item">
-        <a class="page-link" href="?page=<%= currentPage - 1 %>">Previous</a>
-      </li>
-      <% } %>
-
-      <!-- Page numbers -->
-      <% for (let i = 1; i <= totalPages; i++) { %>
-      <li class="page-item <%= currentPage === i ? 'active' : '' %>">
-        <a class="page-link" href="?page=<%= i %>"><%= i %></a>
-      </li>
-      <% } %>
-
-      <!-- Show next page link -->
-      <% if (currentPage < totalPages) { %>
-      <li class="page-item">
-        <a class="page-link" href="?page=<%= currentPage + 1 %>">Next</a>
-      </li>
-      <% } %>
-    </ul>
-  </nav>
-</div>
-
-
-
-<!-- Delete Confirmation Modal (Place this outside the loop and after the table) -->
-<div
-  class="modal fade"
-  id="deleteModal"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="deleteModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">Are you sure you want to delete this user?</div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-          Cancel
-        </button>
-        
-        <!-- Delete Form -->
-        <form id="deleteForm" method="GET" style="display: inline;">
-          <input type="hidden" name="_method" value="DELETE" />
-          <button type="submit" class="btn btn-danger">Delete</button>
-        </form>
+          <!-- Delete Form -->
+          <form id="deleteForm" method="GET" style="display: inline">
+            <input type="hidden" name="_method" value="DELETE" />
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">User Statistics</h3>
+        </div>
 
-<div class="row">
-  <div class="col-md-12">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">User Statistics</h3>
-      </div>
+        <div class="card-body">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th style="width: 10px">#</th>
+                <th>User Account</th>
+                <th>Count</th>
+                <th>Progress</th>
+                <th style="width: 40px">Visual</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Account created last month -->
+              <tr>
+                <td>1.</td>
+                <td>Account created last month</td>
+                <td><%= accountsCreatedLastMonth %></td>
+                <td>
+                  <div class="progress progress-xs">
+                    <div
+                      class="progress-bar bg-primary"
+                      style="width: <%= totalUserAccounts > 0 ? (accountsCreatedLastMonth / totalUserAccounts) * 100 : 0 %>%"
+                    ></div>
+                  </div>
+                </td>
+                <td>
+                  <span class="badge bg-success"
+                    ><%= totalUserAccounts > 0 ? Math.floor((accountsCreatedLastMonth / totalUserAccounts) * 100) : 0 %>%</span
+                  >
+                </td>
+              </tr>
 
-      <div class="card-body">
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th style="width: 10px">#</th>
-              <th>User Account</th>
-              <th>Count</th>
-              <th>Progress</th>
-              <th style="width: 40px">Visual</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Account created last month -->
-            <tr>
-              <td>1.</td>
-              <td>Account created last month</td>
-              <td><%= accountsCreatedLastMonth %></td>
-              <td>
-                <div class="progress progress-xs">
-                  <div
-                    class="progress-bar bg-primary"
-                    style="width: <%= totalUserAccounts > 0 ? (accountsCreatedLastMonth / totalUserAccounts) * 100 : 0 %>%"
-                  ></div>
-                </div>
-              </td>
-              <td>
-                <span class="badge bg-success"
-                  ><%= totalUserAccounts > 0 ?
-                  Math.floor((accountsCreatedLastMonth / totalUserAccounts) *
-                  100) : 0 %>%</span
-                >
-              </td>
-            </tr>
+              <!-- Account created last year -->
+              <tr>
+                <td>2.</td>
+                <td>Account created last year</td>
+                <td><%= accountsCreatedLastYear %></td>
+                <td>
+                  <div class="progress progress-xs">
+                    <div
+                      class="progress-bar bg-primary"
+                      style="width: <%= totalUserAccounts > 0 ? (accountsCreatedLastYear / totalUserAccounts) * 100 : 0 %>%"
+                    ></div>
+                  </div>
+                </td>
+                <td>
+                  <span class="badge bg-success"
+                    ><%= totalUserAccounts > 0 ? Math.floor((accountsCreatedLastYear / totalUserAccounts) * 100) : 0 %>%</span
+                  >
+                </td>
+              </tr>
 
-            <!-- Account created last year -->
-            <tr>
-              <td>2.</td>
-              <td>Account created last year</td>
-              <td><%= accountsCreatedLastYear %></td>
-              <td>
-                <div class="progress progress-xs">
-                  <div
-                    class="progress-bar bg-primary"
-                    style="width: <%= totalUserAccounts > 0 ? (accountsCreatedLastYear / totalUserAccounts) * 100 : 0 %>%"
-                  ></div>
-                </div>
-              </td>
-              <td>
-                <span class="badge bg-success"
-                  ><%= totalUserAccounts > 0 ?
-                  Math.floor((accountsCreatedLastYear / totalUserAccounts) *
-                  100) : 0 %>%</span
-                >
-              </td>
-            </tr>
+              <!-- Account deactivated last month -->
+              <tr>
+                <td>3.</td>
+                <td>Account deactivated last month</td>
+                <td><%= accountsDeactivatedLastMonth %></td>
+                <td>
+                  <div class="progress progress-xs progress-striped active">
+                    <div
+                      class="progress-bar bg-danger"
+                      style="width: <%= totalUserAccounts > 0 ? (accountsDeactivatedLastMonth / totalUserAccounts) * 100 : 0 %>%"
+                    ></div>
+                  </div>
+                </td>
+                <td>
+                  <span class="badge bg-warning"
+                    ><%= totalUserAccounts > 0 ? Math.floor((accountsDeactivatedLastMonth / totalUserAccounts) * 100) : 0 %>%</span
+                  >
+                </td>
+              </tr>
 
-            <!-- Account deactivated last month -->
-            <tr>
-              <td>3.</td>
-              <td>Account deactivated last month</td>
-              <td><%= accountsDeactivatedLastMonth %></td>
-              <td>
-                <div class="progress progress-xs progress-striped active">
-                  <div
-                    class="progress-bar bg-danger"
-                    style="width: <%= totalUserAccounts > 0 ? (accountsDeactivatedLastMonth / totalUserAccounts) * 100 : 0 %>%"
-                  ></div>
-                </div>
-              </td>
-              <td>
-                <span class="badge bg-warning"
-                  ><%= totalUserAccounts > 0 ?
-                  Math.floor((accountsDeactivatedLastMonth / totalUserAccounts)
-                  * 100) : 0 %>%</span
-                >
-              </td>
-            </tr>
-
-            <!-- Account deactivated last year -->
-            <tr>
-              <td>4.</td>
-              <td>Account deactivated last year</td>
-              <td><%= accountsDeactivatedLastYear %></td>
-              <td>
-                <div class="progress progress-xs progress-striped active">
-                  <div
-                    class="progress-bar bg-danger"
-                    style="width: <%= totalUserAccounts > 0 ? (accountsDeactivatedLastYear / totalUserAccounts) * 100 : 0 %>%"
-                  ></div>
-                </div>
-              </td>
-              <td>
-                <span class="badge bg-warning"
-                  ><%= totalUserAccounts > 0 ?
-                  Math.floor((accountsDeactivatedLastYear / totalUserAccounts) *
-                  100) : 0 %>%</span
-                >
-              </td>
-            </tr>
-          </tbody>
-        </table>
+              <!-- Account deactivated last year -->
+              <tr>
+                <td>4.</td>
+                <td>Account deactivated last year</td>
+                <td><%= accountsDeactivatedLastYear %></td>
+                <td>
+                  <div class="progress progress-xs progress-striped active">
+                    <div
+                      class="progress-bar bg-danger"
+                      style="width: <%= totalUserAccounts > 0 ? (accountsDeactivatedLastYear / totalUserAccounts) * 100 : 0 %>%"
+                    ></div>
+                  </div>
+                </td>
+                <td>
+                  <span class="badge bg-warning"
+                    ><%= totalUserAccounts > 0 ? Math.floor((accountsDeactivatedLastYear / totalUserAccounts) * 100) : 0 %>%</span
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<div class="row">
-  <div class="col-md-12">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">Account Statistics</h3>
-      </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Account Statistics</h3>
+        </div>
 
-      <div class="card-body">
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th style="width: 10px">#</th>
-              <th>User Type</th>
-              <th>Count</th>
-              <th>Progress</th>
-              <th style="width: 40px">Visual</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- User accounts in total -->
-            <tr>
-              <td>1.</td>
-              <td>User accounts in total</td>
-              <td><%= totalUserAccounts %></td>
-              <td>
-                <div class="progress progress-xs">
-                  <div
-                    class="progress-bar bg-primary"
-                    style="width: <%= totalUserAccounts + totalAdminAccounts > 0 ? (totalUserAccounts / (totalUserAccounts + totalAdminAccounts)) * 100 : 0 %>%"
-                  ></div>
-                </div>
-              </td>
-              <td>
-                <span class="badge bg-secondary"
-                  ><%= totalUserAccounts + totalAdminAccounts > 0 ?
-                  Math.floor((totalUserAccounts / (totalUserAccounts +
-                  totalAdminAccounts)) * 100) : 0 %>%</span
-                >
-              </td>
-            </tr>
+        <div class="card-body">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th style="width: 10px">#</th>
+                <th>User Type</th>
+                <th>Count</th>
+                <th>Progress</th>
+                <th style="width: 40px">Visual</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- User accounts in total -->
+              <tr>
+                <td>1.</td>
+                <td>User accounts in total</td>
+                <td><%= totalUserAccounts %></td>
+                <td>
+                  <div class="progress progress-xs">
+                    <div
+                      class="progress-bar bg-primary"
+                      style="width: <%= totalUserAccounts + totalAdminAccounts > 0 ? (totalUserAccounts / (totalUserAccounts + totalAdminAccounts)) * 100 : 0 %>%"
+                    ></div>
+                  </div>
+                </td>
+                <td>
+                  <span class="badge bg-secondary"
+                    ><%= totalUserAccounts + totalAdminAccounts > 0 ? Math.floor((totalUserAccounts / (totalUserAccounts + totalAdminAccounts)) * 100)
+                    : 0 %>%</span
+                  >
+                </td>
+              </tr>
 
-            <!-- Admin accounts in total -->
-            <tr>
-              <td>2.</td>
-              <td>Admin accounts in total</td>
-              <td><%= totalAdminAccounts %></td>
-              <td>
-                <div class="progress progress-xs">
-                  <div
-                    class="progress-bar bg-warning"
-                    style="width: <%= totalUserAccounts + totalAdminAccounts > 0 ? (totalAdminAccounts / (totalUserAccounts + totalAdminAccounts)) * 100 : 0 %>%"
-                  ></div>
-                </div>
-              </td>
-              <td>
-                <span class="badge bg-success"
-                  ><%= totalUserAccounts + totalAdminAccounts > 0 ?
-                  Math.floor((totalAdminAccounts / (totalUserAccounts +
-                  totalAdminAccounts)) * 100) : 0 %>%</span
-                >
-              </td>
-            </tr>
-          </tbody>
-        </table>
+              <!-- Admin accounts in total -->
+              <tr>
+                <td>2.</td>
+                <td>Admin accounts in total</td>
+                <td><%= totalAdminAccounts %></td>
+                <td>
+                  <div class="progress progress-xs">
+                    <div
+                      class="progress-bar bg-warning"
+                      style="width: <%= totalUserAccounts + totalAdminAccounts > 0 ? (totalAdminAccounts / (totalUserAccounts + totalAdminAccounts)) * 100 : 0 %>%"
+                    ></div>
+                  </div>
+                </td>
+                <td>
+                  <span class="badge bg-success"
+                    ><%= totalUserAccounts + totalAdminAccounts > 0 ? Math.floor((totalAdminAccounts / (totalUserAccounts + totalAdminAccounts)) *
+                    100) : 0 %>%</span
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
+
+  <%- include('../layout/footer') %>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Triggered when the modal is about to be shown
+    // $("#deleteModal").on("show.bs.modal", function (event) {
+    //   var button = $(event.relatedTarget); // Button that triggered the modal
+    //   var userId = button.data("userid"); // Extract user ID from data-* attribute
+    //   var deleteUrl = "/deleteUser/" + userId; // Generate delete URL
+
+    //   // Update the modal's "Delete" button href attribute
+    //   var confirmDeleteButton = $(this).find("#confirmDelete");
+    //   confirmDeleteButton.attr("href", deleteUrl);
+    // });
+
+    // JavaScript to dynamically set the deleteForm action URL
+    document.querySelectorAll('[data-target="#deleteModal"]').forEach((button) => {
+      button.addEventListener("click", function () {
+        const userId = this.getAttribute("data-userid");
+        const form = document.getElementById("deleteForm");
+        form.setAttribute("action", `deleteUser/${userId}`);
+      });
+    });
+  </script>
 </div>
-
-<%- include('../layout/footer') %>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-<script>
-  // Triggered when the modal is about to be shown
-  // $("#deleteModal").on("show.bs.modal", function (event) {
-  //   var button = $(event.relatedTarget); // Button that triggered the modal
-  //   var userId = button.data("userid"); // Extract user ID from data-* attribute
-  //   var deleteUrl = "/deleteUser/" + userId; // Generate delete URL
-
-  //   // Update the modal's "Delete" button href attribute
-  //   var confirmDeleteButton = $(this).find("#confirmDelete");
-  //   confirmDeleteButton.attr("href", deleteUrl);
-  // });
-
-
-
-  // JavaScript to dynamically set the deleteForm action URL
-document.querySelectorAll('[data-target="#deleteModal"]').forEach(button => {
-  button.addEventListener("click", function() {
-    const userId = this.getAttribute("data-userid");
-    const form = document.getElementById("deleteForm");
-    form.setAttribute("action", `deleteUser/${userId}`);
-  });
-});
-
-</script>

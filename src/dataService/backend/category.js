@@ -3,6 +3,18 @@
 const category = require("../../models/category");
 
 /**
+ * function to create category
+ *
+ * @param {Object} data
+ * @returns saved data
+ */
+async function create(data) {
+  const newData = new category(data);
+  const saveData = await newData.save();
+  return saveData;
+}
+
+/**
  * function to get category list and search by name
  *
  * @param {string} searchTerm - the searchTerm
@@ -16,7 +28,7 @@ async function list(searchTerm, page, limit) {
 
   if (searchTerm) {
     query = {
-      $or: [{ name: { $regex: searchTerm, $options: "i" } }],
+      $and: [{ name: { $regex: searchTerm, $options: "i" } }],
     };
   }
 
@@ -35,8 +47,8 @@ async function list(searchTerm, page, limit) {
       $addFields: {
         userDetail: {
           id: "$user._id",
-          firstName: "$user.fName",
-          lastName: "$user.lName",
+          fName: "$user.fName",
+          lName: "$user.lName",
           email: "$user.email",
         },
       },
@@ -58,15 +70,4 @@ async function list(searchTerm, page, limit) {
   return { listCategory, totalCategory, totalCategoryCount, totalPage };
 }
 
-/**
- * function to create ctaegory
- *
- * @param {Object} data
- * @returns saved data
- */
-async function create(data) {
-  const newData = new category(data);
-  const saveData = await newData.save();
-  return saveData;
-}
 module.exports = { list, create };
