@@ -1,0 +1,84 @@
+<%- include('../../layout/header') %>
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card card-success">
+          <div class="card-header">
+            <h3 class="card-title">Sub-Category details</h3>
+          </div>
+
+          <form action="/admin/update-subcategory" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="categoryId" value="<%= subCategoryDetails._id %>" />
+            <div class="card-body">
+              <div class="row">
+                <div class="form-group col-md-4">
+                  <label for="content">Creator name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    name="name"
+                    placeholder="Category name"
+                    value="<%= userDetails && userDetails.fName && userDetails.lName ? `${userDetails.fName} ${userDetails.lName}` : 'N/A' %>"
+                    disabled
+                  />
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="content">Creator's mail</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="email"
+                    name="email"
+                    placeholder="Creator's email"
+                    value="<%= userDetails && userDetails.email ? userDetails.email : 'N/A' %>"
+                    disabled
+                  />
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="form-group col-md-4">
+                  <label for="name">Creator's phone no.</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="phone"
+                    name="phone"
+                    placeholder="Creator's phone no."
+                    value="<%= userDetails && userDetails.mobile ? userDetails.mobile : 'N/A' %>"
+                    disabled
+                  />
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="content">Content</label>
+                  <textarea type="text" class="form-control" id="content" name="content" placeholder="content">
+                    <%= subCategoryDetails.content ? subCategoryDetails.content : '' %></textarea
+                  >
+                </div>
+              </div>
+
+              <div class="custom-control custom-checkbox">
+                <input class="custom-control-input" type="checkbox" id="confirmupdate" name="confirmupdate" onclick="toggleSubmitButton()" />
+                <label for="confirmupdate" class="custom-control-label">Confirm to update category</label>
+              </div>
+            </div>
+
+            <div class="card-footer">
+              <button type="submit" class="btn btn-success" id="submitButton" disabled>Update</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  function toggleSubmitButton() {
+    const checkbox = document.getElementById("confirmupdate");
+    const submitButton = document.getElementById("submitButton");
+    submitButton.disabled = !checkbox.checked;
+  }
+</script>
+<%- include('../../layout/footer') %>

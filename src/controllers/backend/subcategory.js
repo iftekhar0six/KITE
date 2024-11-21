@@ -1,6 +1,8 @@
 "use strict";
 
 const subCategoryRepo = require("../../dataService/subCategory");
+const user = require("../../models/user");
+const subCategory = require("../../models/subCategory");
 
 module.exports = {
   /**
@@ -37,9 +39,32 @@ module.exports = {
       const id = req.params.id;
       await subCategoryRepo.deleteSubCategory(id);
 
-      return res.redirect("/admin/subcategory");
+      return res.redirect("/admin/sub-category");
     } catch (error) {
       console.error(error);
+      next(error);
+    }
+  },
+
+  /**
+   * function to get subcategory details by id
+   */
+  update: async function (req, res, next) {
+    try {
+      const subcategoryId = req.params.id;
+      const subCategoryDetails = await subCategory.findById(subcategoryId);
+
+      const userId = subCategoryDetails.userId;
+      const userDetails = await user.findOne({ _id: userId });
+
+      return res.render("admin/subcategory/update", {
+        title: "Update Sub-Category",
+        route: "subcategory",
+        subCategoryDetails,
+        userDetails,
+        subcategoryId,
+      });
+    } catch (error) {
       next(error);
     }
   },

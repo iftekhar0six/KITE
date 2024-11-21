@@ -35,13 +35,15 @@ async function create(subCategoryInfo) {
  */
 async function list(searchTerm, page, limit) {
   const skip = (page - 1) * limit;
-  let query = {};
+  let query = { isDeleted: false, status: 1 };  
 
-  if (searchTerm) {
-    query = {
-      $or: [{ name: { $regex: searchTerm, $options: "i" } }],
-    };
-  }
+if (searchTerm) {
+  query = {
+    ...query, 
+    $or: [{ name: { $regex: searchTerm, $options: "i" } }],
+  };
+}
+
 
   const listSubCategory = await subCategory.aggregate([
     { $match: query },
