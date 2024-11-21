@@ -28,4 +28,19 @@ module.exports = {
       next(error);
     }
   },
+
+  /**
+   * function for delete sub-category
+   */
+  deleteSubCategory: async function (req, res, next) {
+    try {
+      const id = req.params.id;
+      await subCategoryRepo.deleteSubCategory(id);
+
+      return res.redirect("/admin/subcategory");
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
+  },
 };

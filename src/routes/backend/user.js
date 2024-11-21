@@ -6,14 +6,14 @@ const router = express.Router();
 /**
  * User/Admin Router
  */
-const adminController = require("../../controllers/backend/admin");
+const controller = require("../../controllers/backend/admin");
 
-router.get("/profile", adminController.userProfile);
-router.get("/user", adminController.listUser);
-router.get("/update/:userid", adminController.userRoute);
-router.post("/update-user/:userid", adminController.updateUser);
-router.get("/home", adminController.userCount);
-router.get("/register", adminController.registerAdmin);
-router.get("/deleteUser/:userid", adminController.deleteUser);
+router.get("/profile", controller.userProfile);
+router.get("/user", controller.listUser);
+router.get("/update/:userid", controller.userRoute);
+router.post("/update-user/:userid", controller.updateUser);
+router.get("/home", controller.userCount);
+router.get("/register", controller.registerAdmin);
+router.get("/deleteUser/:userid", controller.deleteUser);
 
 module.exports = router;

@@ -62,7 +62,10 @@ async function list(searchTerm, page, limit) {
       $addFields: {
         userDetail: {
           id: "$user._id",
+          fName: "$user.fName",
+          lName: "$user.lName",
           email: "$user.email",
+          mobile: "$user.mobile",
         },
       },
     },

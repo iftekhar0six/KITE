@@ -5,25 +5,14 @@
       <div class="col-md-12">
         <div class="card card-success">
           <div class="card-header">
-            <h3 class="card-title">Account credentials</h3>
+            <h3 class="card-title">Category details</h3>
           </div>
 
-          <form action="/admin/category" method="GET" enctype="multipart/form-data">
+          <form action="/admin/update-category" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="categoryId" value="<%= categoryDetails._id %>">
             <div class="card-body">
               <div class="row">
                 <div class="form-group col-md-4">
-                  <label for="name">Category Id</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="name"
-                    name="name"
-                    placeholder="Category name"
-                    value="<%= category != null ? category['name'] : ''%>"
-                    disabled
-                  />
-                </div>
-                <div class="form-group col-md-4">
                   <label for="description">Creator name</label>
                   <input
                     type="text"
@@ -31,19 +20,19 @@
                     id="name"
                     name="name"
                     placeholder="Category name"
-                    value="<%= category.userDetail ? `${category.userDetail.firstName} ${category.userDetail.lastName}` : "N/A" %>"
+                    value="<%= userDetails && userDetails.fName && userDetails.lName ? `${userDetails.fName} ${userDetails.lName}` : 'N/A' %>"
                     disabled
                   />
                 </div>
                 <div class="form-group col-md-4">
-                  <label for="description">Creator name</label>
+                  <label for="description">Creator's mail</label>
                   <input
                     type="text"
                     class="form-control"
-                    id="name"
-                    name="name"
-                    placeholder="Category name"
-                    value="<%= category != null ? category['name'] : ''%>"
+                    id="email"
+                    name="email"
+                    placeholder="Creator's email"
+                    value="<%= userDetails && userDetails.email ? userDetails.email : 'N/A' %>"
                     disabled
                   />
                 </div>
@@ -51,48 +40,33 @@
 
               <div class="row">
                 <div class="form-group col-md-4">
-                  <label for="name">Creator mail address</label>
+                  <label for="name">Creator's phone no.</label>
                   <input
                     type="text"
                     class="form-control"
-                    id="name"
-                    name="name"
-                    placeholder="Category name"
-                    value="<%= category != null ? category['name'] : ''%>"
+                    id="phone"
+                    name="phone"
+                    placeholder="Creator's phone no."
+                    value="<%= userDetails && userDetails.mobile ? userDetails.mobile : 'N/A' %>"
                     disabled
                   />
                 </div>
                 <div class="form-group col-md-4">
                   <label for="description">Description</label>
-                  <textarea
-                    type="text"
-                    class="form-control"
-                    id="description"
-                    name="description"
-                    placeholder="description"
-                    value="<%= category != null ? category['description'] : ''%>"
-                  ></textarea>
+                  <textarea type="text" class="form-control" id="description" name="description" placeholder="Description">
+<%= categoryDetails.description ? categoryDetails.description : '' %></textarea
+                  >
                 </div>
               </div>
-             
+
               <div class="custom-control custom-checkbox">
-                <input
-                  class="custom-control-input"
-                  type="checkbox"
-                  id="confirmupdate" 
-                  name="confirmupdate"
-                  onclick="toggleSubmitButton()"
-                />
-                <label for="confirmupdate" class="custom-control-label"
-                  >Confirm to update user</label
-                >
+                <input class="custom-control-input" type="checkbox" id="confirmupdate" name="confirmupdate" onclick="toggleSubmitButton()" />
+                <label for="confirmupdate" class="custom-control-label">Confirm to update category</label>
               </div>
             </div>
 
             <div class="card-footer">
-              <button type="submit" class="btn btn-success" id="submitButton" disabled>
-                Update
-              </button>
+              <button type="submit" class="btn btn-success" id="submitButton" disabled>Update</button>
             </div>
           </form>
         </div>

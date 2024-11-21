@@ -113,7 +113,7 @@ module.exports = {
 
       // const createCategory = await categoryRepo.create(detail);
 
-      return res.render("admin/category/add", { title: "Category", route: category });
+      return res.render("admin/category/add", { title: "Category", route: "category" });
     } catch (error) {
       next(error);
     }
@@ -122,15 +122,22 @@ module.exports = {
   /**
    * find category by id using mongo id
    */
-  findCategory: async function (req, res, next) {
+  update: async function (req, res, next) {
     try {
-      const id = req.params.id;
-      const categoryExist = await category.findById(id);
+      const categoryId = req.params.id;
+      const { categoryDetails, userDetails } = await categoryRepo.getDetailsById(categoryId);
 
-      if (!categoryExist) {
+      if (!categoryDetails || !userDetails) {
         return res.send("Category not found");
       }
-      return res.render("admin/category/update", { title: "Update Category", route: category, category: categoryExist });
+
+      return res.render("admin/category/update", {
+        title: "Update Category",
+        route: "category",
+        categoryDetails,
+        userDetails,
+        categoryId,
+      });
     } catch (error) {
       next(error);
     }
@@ -139,15 +146,14 @@ module.exports = {
   /**
    * function to update category
    */
-  updateCategory: async function (req, res, next) {
+  updateForm: async function (req, res, next) {
     try {
-      const page = req.query.page || 1;
-      const limit = Number(req.query.limit) || 9;
-      const searchTerm = req.query.searchTerm || "";
+      const detail = { description: req.body.description };
+      const categoryId = req.body.categoryId;
 
-      const { listCategory } = await categoryRepo.list(searchTerm, page, limit);
+      await categoryRepo.update(categoryId, detail);
 
-      return res.redirect("admin/category", { title: "Update Category", route: category, listCategory: listCategory });
+      return res.redirect(`/admin/category`);
     } catch (error) {
       next(error);
     }

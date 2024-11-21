@@ -7,4 +7,7 @@ const controller = require("../../controllers/backend/subcategory");
 
 router.get("/sub-category", controller.listSubCategory);
 
+router.get("/deleteSubCategory/:id", controller.deleteSubCategory);
+
+
 module.exports = router;

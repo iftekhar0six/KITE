@@ -118,6 +118,7 @@ async function update(subCategoryId, subCategoryInfo) {
 async function deleteSubCategory(subCategoryId) {
   const subCategoryInfo = {
     status: status.Inactive,
+    isDeleted: true,
   };
   const data = await subCategory.findByIdAndUpdate(subCategoryId, subCategoryInfo, {
     new: true,

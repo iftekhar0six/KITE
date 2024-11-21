@@ -3,8 +3,8 @@
 const express = require("express");
 const router = express.Router();
 
-const postController = require("../../controllers/backend/post");
+const controller = require("../../controllers/backend/post");
 
-router.get("/post", postController.listPost);
+router.get("/post", controller.listPost);
 
 module.exports = router;

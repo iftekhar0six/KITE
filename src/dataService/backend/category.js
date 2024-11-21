@@ -1,6 +1,7 @@
 "use strict";
 
 const category = require("../../models/category");
+const user = require("../../models//user");
 
 /**
  * function to create category
@@ -50,6 +51,7 @@ async function list(searchTerm, page, limit) {
           fName: "$user.fName",
           lName: "$user.lName",
           email: "$user.email",
+          mobile: "$user.mobile",
         },
       },
     },
@@ -70,4 +72,40 @@ async function list(searchTerm, page, limit) {
   return { listCategory, totalCategory, totalCategoryCount, totalPage };
 }
 
-module.exports = { list, create };
+/**
+ * function to get category details by id
+ *
+ * @param {object} categoryId - The category id
+ * @returns {object} the category details
+ */
+
+async function getDetailsById(categoryId) {
+  const categoryDetails = await category.findById(categoryId);
+
+  const userId = categoryDetails.userId;
+  const userDetails = await user.findOne({ _id: userId });
+
+  return { categoryDetails, userDetails };
+}
+
+/**
+ * function for updating category
+ *
+ * @param {string} categoryId
+ * @param {object} categoryInfo
+ * @returns {object} the updated category
+ */
+async function update(categoryId, categoryInfo) {
+  const data = await category.findByIdAndUpdate(categoryId, categoryInfo, {
+    new: true,
+  });
+  return data;
+}
+
+
+module.exports = {
+  list: list,
+  create: create,
+  getDetailsById: getDetailsById,
+  update:update
+};
